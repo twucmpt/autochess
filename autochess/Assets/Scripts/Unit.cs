@@ -13,6 +13,7 @@ public class Unit : Entity
     AnimatorOverrideController animController;
     Ability currentAbility = null;
     Entity currentTarget = null;
+    bool waitingOnCooldown = false;
     void Start() {
         var added = GameManager.Instance.AddUnit(this, Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
         if (!added) Destroy(gameObject);
@@ -58,15 +59,18 @@ public class Unit : Entity
             }
 
             if (currentAbility is not null) {
+                waitingOnCooldown = false;
                 animController["attack"] = currentAbility.animation;
                 animator.SetBool("Attacking", true);
-                print(gameObject.name + " is attacking with " + currentAbility.name + ".");
+                print(gameObject.name + " is attacking " + currentTarget.gameObject.name + " with " + currentAbility.name + ".");
             }
             else if (!atLeastOneAbilityInRange) {
+                waitingOnCooldown = false;
                 Advance();
             }
             else {
-                print(gameObject.name + " is waiting for ability to cooldown.");
+                if (!waitingOnCooldown) print(gameObject.name + " is waiting for ability to cooldown.");
+                waitingOnCooldown = true;
             }
         }
     }
