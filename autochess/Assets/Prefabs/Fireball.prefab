@@ -103,6 +103,7 @@ MonoBehaviour:
   speed: 1
   damage: 0
   user: {fileID: 0}
+  friendlyFire: 0
 --- !u!58 &2265583875833128629
 CircleCollider2D:
   m_ObjectHideFlags: 0

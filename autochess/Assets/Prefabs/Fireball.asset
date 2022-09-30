@@ -15,7 +15,7 @@ MonoBehaviour:
   animation: {fileID: 7400000, guid: 3f5d755826476944d9cbc7e0feb2ee33, type: 2}
   range: 9999
   rangeType: 1
-  angle: 90
+  angle: 45
   power: 20
   cooldown: 10
   currentCooldown: 0
