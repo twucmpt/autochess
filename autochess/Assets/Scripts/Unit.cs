@@ -6,7 +6,7 @@ public class Unit : Entity
 {
     public int power = 10;
     public bool facingRight = true;
-    public List<Ability> abilities = new List<Ability>();
+    public float speed = 1;
     public Vector2Int gridPos;
 
     Animator animator;
@@ -14,15 +14,12 @@ public class Unit : Entity
     Ability currentAbility = null;
     Entity currentTarget = null;
     bool waitingOnCooldown = false;
+    Ability[] abilities;
     void Start() {
         var added = GameManager.Instance.AddUnit(this, Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
         if (!added) Destroy(gameObject);
 
-        var newInstanceOfAbilities = new List<Ability>();
-        foreach (var ability in abilities) {
-            newInstanceOfAbilities.Add(Instantiate(ability));
-        }
-        abilities = newInstanceOfAbilities;
+        abilities = GetComponentsInChildren<Ability>();
 
         animator = GetComponentInChildren<Animator>();
         animController = new AnimatorOverrideController(animator.runtimeAnimatorController);
@@ -37,18 +34,22 @@ public class Unit : Entity
             transform.localScale = flipScale;
         }
 
+        // Handle movement
         gridPos = GameManager.Instance.GetGridPos(this);
         var gridToWorldPos = new Vector3(gridPos.x, gridPos.y);
         animator.SetBool("Walking", gridToWorldPos != transform.position);
-        transform.position = Vector3.MoveTowards(transform.position, gridToWorldPos, Time.deltaTime);
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("walk")) transform.position = Vector3.MoveTowards(transform.position, gridToWorldPos, Time.deltaTime);
 
-        foreach (Ability ability in abilities) ability.ReduceCooldown(Time.deltaTime);
+        // Reduce cooldown on abilities
+        foreach (Ability ability in abilities) ability.ReduceCooldown(Time.deltaTime*speed);
 
+        // Determine action
+        // Animation state doesn't change right away so need to check animator booleans too
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("idle") && !animator.GetBool("Attacking") && !animator.GetBool("Walking")) {
             bool atLeastOneAbilityInRange = false;
             foreach (Ability ability in abilities) {
                 if (atLeastOneAbilityInRange && ability.currentCooldown > 0) continue;
-                var possibleTargets = ability.TargetsInRange(this, CompareTag("Player")? "Enemy" : "Player");
+                var possibleTargets = ability.TargetsInRange(CompareTag("Player")? "Enemy" : "Player");
                 if (possibleTargets.Count > 0) {
                     atLeastOneAbilityInRange = true;
                     if (ability.currentCooldown > 0) continue;
@@ -91,11 +92,11 @@ public class Unit : Entity
     }
 
     public void AnimationStartCallback() {
-        currentAbility.Activate(this, currentTarget);
+        currentAbility.Activate(currentTarget);
     }
 
     public void AnimationImpactCallback() {
-        currentAbility.AnimationImpactCallback(this, currentTarget);
+        currentAbility.AnimationImpactCallback(currentTarget);
     }
 
     public void AnimationEndCallback() {

@@ -1,12 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-[CreateAssetMenu()]
-public class Ability : ScriptableObject
+public class Ability : MonoBehaviour
 {
-    public AnimationClip animation;
+    new public string name;
+    new public AnimationClip animation;
     public float range;
     public AttackRangeType rangeType;
     public float angle;
@@ -14,8 +12,15 @@ public class Ability : ScriptableObject
     public float cooldown;
     public float currentCooldown;
     public bool includeUser = false;
+    public bool friendlyFire = false;
 
-    public List<Entity> TargetsInRange(Unit user, string targetTag) {
+    protected Unit user;
+
+    void Start() {
+        user = GetComponentInParent<Unit>();
+    }
+
+    public List<Entity> TargetsInRange(string targetTag) {
         var targets = new List<Entity>();
         switch (rangeType) {
             case AttackRangeType.Linear:
@@ -43,14 +48,14 @@ public class Ability : ScriptableObject
         return targets;
     }
 
-    public virtual void Activate(Unit user, Entity target) {
+    public virtual void Activate(Entity target) {
         currentCooldown = cooldown;
     }
-    public virtual void AnimationImpactCallback(Unit user, Entity target) {
+    public virtual void AnimationImpactCallback(Entity target) {
         List<Entity> unitsHit = new List<Entity>();
         switch (rangeType) {
             case AttackRangeType.Linear:
-                unitsHit = TargetsInRange(user, null);
+                unitsHit = TargetsInRange(null);
                 break;
             case AttackRangeType.Cone:
                 // Check they are still in range
@@ -66,6 +71,7 @@ public class Ability : ScriptableObject
         }
         foreach (Entity unit in unitsHit) {
             if (unit == user && !includeUser) continue;
+            if (!friendlyFire && unit.CompareTag(user.tag)) continue;
             unit.TakeDamage(power);
         }
     }
