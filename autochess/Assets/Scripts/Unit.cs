@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public class Unit : Entity
 {
-    public int maxHealth = 100;
-    public int currentHealth = 100;
     public int power = 10;
     public bool facingRight = true;
     public List<Ability> abilities = new List<Ability>();
@@ -14,7 +12,7 @@ public class Unit : MonoBehaviour
     Animator animator;
     AnimatorOverrideController animController;
     Ability currentAbility = null;
-    Unit currentTarget = null;
+    Entity currentTarget = null;
     void Start() {
         var added = GameManager.Instance.AddUnit(this, Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
         if (!added) Destroy(gameObject);
@@ -84,9 +82,8 @@ public class Unit : MonoBehaviour
         print(gameObject.name + " is advancing to " + newPos.ToString() + ".");
     }
 
-    public void TakeDamage(int damage) {
-        currentHealth -= damage;
-        if (currentHealth <= 0) Destroy(gameObject);
+    public void DestroySelf() {
+        Destroy(gameObject);
     }
 
     public void AnimationStartCallback() {

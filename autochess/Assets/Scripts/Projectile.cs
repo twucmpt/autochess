@@ -12,7 +12,7 @@ class Projectile : MonoBehaviour {
     void Update() {rb.velocity = direction * speed;}
 
     void OnTriggerEnter2D (Collider2D collider) {
-        Unit unit = collider.transform.root.GetComponent<Unit>();
+        Entity unit = collider.transform.root.GetComponent<Entity>();
         if (unit == user) return;
 
         unit.TakeDamage(damage);
