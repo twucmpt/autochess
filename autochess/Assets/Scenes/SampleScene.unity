@@ -2088,6 +2088,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5081304994081655446, guid: 40e7cb0d34debc54eb632f25418ccff8, type: 3}
+      propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5081304994081655446, guid: 40e7cb0d34debc54eb632f25418ccff8, type: 3}
+      propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5081304994081655446, guid: 40e7cb0d34debc54eb632f25418ccff8, type: 3}
+      propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2044115187319940313}
+    - target: {fileID: 5081304994081655446, guid: 40e7cb0d34debc54eb632f25418ccff8, type: 3}
+      propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5081304994081655446, guid: 40e7cb0d34debc54eb632f25418ccff8, type: 3}
+      propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnGameOver
+      objectReference: {fileID: 0}
+    - target: {fileID: 5081304994081655446, guid: 40e7cb0d34debc54eb632f25418ccff8, type: 3}
+      propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5081304994081655446, guid: 40e7cb0d34debc54eb632f25418ccff8, type: 3}
+      propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8422132190163892953, guid: 40e7cb0d34debc54eb632f25418ccff8, type: 3}
       propertyPath: m_Name
       value: Warlock

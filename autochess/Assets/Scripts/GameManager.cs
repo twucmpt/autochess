@@ -34,6 +34,8 @@ public class GameManager : Singleton<GameManager>
 	private Dictionary<Vector2Int, Stack<GameObject>> enemySpawnStacks = new();
 
 	public int currency = 0;
+	public int currencyPerRound = 10;
+	public int round = 1;
 	
 
     protected override void Awake() 
@@ -255,8 +257,16 @@ public class GameManager : Singleton<GameManager>
 	public void OnRoundEnd()
 	{
 		currentPhase = GamePhase.Planning;
+		round++;
+		currency += currencyPerRound;
 		OnPlanningPhaseStart();
 		throw new NotImplementedException();
+	}
+
+	public void OnGameOver() {
+		print("Congrats! You have surivived " + round + " rounds.");
+		GameData.roundsSurvived = round;
+		UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
 	}
 
 	/// <summary>
