@@ -425,7 +425,7 @@ public class GameManager : Singleton<GameManager>
 	public bool CheckValidSpawn(Vector2Int pos)
 	{
 		bool validSpawn = true;
-		validSpawn = CheckValidPosition(pos);
+		validSpawn = CheckValidPosition(pos, "Enemy");
 		return validSpawn;
 	}
 
