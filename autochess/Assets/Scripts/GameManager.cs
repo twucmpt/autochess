@@ -170,6 +170,7 @@ public class GameManager : Singleton<GameManager>
 
 	public void OnPlanningPhaseStart() {
 		currentPhase = GamePhase.Planning;
+		CanRedeployFromGrid = true;
 		CanRedeployFromBench = true;
 		pausedGameIndicator.SetActive(true);
 		startRoundButton.SetActive(true);
@@ -184,6 +185,7 @@ public class GameManager : Singleton<GameManager>
 	public void OnPlanningPhaseEnd()
 	{
 		currentPhase = GamePhase.Combat;
+		CanRedeployFromGrid = false;
 		CanRedeployFromBench = false;
 		pausedGameIndicator.SetActive(false);
 		startRoundButton.SetActive(false);
