@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class Shop : MonoBehaviour
 {
+    public int rerollCost = 5;
     public List<GameObject> unitSelectionList = new ();
     public GameObject[] slots = new GameObject[5];
 
@@ -20,7 +21,7 @@ public class Shop : MonoBehaviour
 
     public void PurchaseSlot(int slot) {
         int cost = units[slot].GetComponent<Unit>().type.cost;
-        if (GameManager.Instance.currency > cost && bench.AddUnit(units[slot])) {
+        if (GameManager.Instance.currency >= cost && bench.AddUnit(units[slot])) {
             GameManager.Instance.currency -= cost;
 
             SetShopUnit(slot, null);
@@ -52,6 +53,17 @@ public class Shop : MonoBehaviour
 
     public GameObject GetShopUnit(int slot) {
         return units[slot];
+    }
+
+    public void RerollShop() {
+        if (GameManager.Instance.currency >= rerollCost) {
+            GameManager.Instance.currency -= rerollCost;
+            RefillShop();
+            print("Rerolling successful");
+        }
+        else {
+            print("Rerolling failed");
+        }
     }
 
     void RefillShop() {
