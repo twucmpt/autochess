@@ -6,45 +6,70 @@ public class GameManager : Singleton<GameManager>
 {
     public int gridWidth;
     public int gridHeight;
-    public Unit[,] grid;
 
-    private Dictionary<Unit, Vector2Int> unitPositions = new Dictionary<Unit, Vector2Int>();
-    
-    protected override void Awake() {
+    public Dictionary<Vector2Int, Unit> unitPositions = new();
+    public Dictionary<unitTypes, UnitType> unitTypeEnumToClass = new();
+
+
+    protected override void Awake() 
+	{
         base.Awake();
-        grid = new Unit[gridWidth,gridHeight];
     }
 
-    public bool MoveUnit(Unit unit, int x, int y) {
-        return MoveUnit(unit, new Vector2Int(x,y));
-    }
+	public void Init()
+	{
+		unitTypeEnumToClass.Add(unitTypes.MeleeZombie, new MeleeZombie());
+		unitTypeEnumToClass.Add(unitTypes.BowSkeleton, new BowSkeleton());
 
-    public bool MoveUnit(Unit unit, Vector2Int newPos) {
-        if (grid[newPos.x, newPos.y] is not null || !unitPositions.ContainsKey(unit)) return false;
+	}
 
-        var pos = unitPositions[unit];
-        grid[pos.x, pos.y] = null;
+	/// <summary>
+	/// Adds a Unit to the unit dictionary if the position is available
+	/// </summary>
+	public bool AddUnit(Unit unit, int x, int y)
+	{
+		return AddUnit(unit, new Vector2Int(x, y));
+	}
+	/// <summary>
+	/// Adds a Unit to the unit dictionary if the position is available
+	/// </summary>
+	public bool AddUnit(Unit unit, Vector2Int pos)
+	{
 
-        grid[newPos.x,newPos.y] = unit;
-        unitPositions[unit] = newPos;
-        return true;
-    }
 
-    public void RemoveUnit(Unit unit) {
-        var pos = unitPositions[unit];
-        grid[pos.x, pos.y] = null;
-        unitPositions.Remove(unit);
-    }
+		if (CheckValidPosition(pos)) return false;
 
-    public bool AddUnit(Unit unit, int x, int y) {
-        if (grid[x,y] is not null || unitPositions.ContainsKey(unit)) return false;
-        
-        grid[x,y] = unit;
-        unitPositions.Add(unit, new Vector2Int(x, y));
-        return true;
-    }
+		unitPositions.Add(pos, unit);
+		return true;
+	}
+	public void RemoveUnit(Unit unit)
+	{
+		var pos = unit.gridPos;
+		unitPositions.Remove(unit.gridPos);
+	}
 
-    public Vector2Int GetGridPos(Unit unit) {
-        return unitPositions[unit];
-    }
+	public UnitType GetUnitType(unitTypes type)
+	{
+		switch (type)
+		{
+			case unitTypes.MeleeZombie:
+				return new MeleeZombie();
+			case unitTypes.BowSkeleton:
+				return new BowSkeleton();
+		}
+
+		return new MeleeZombie();
+	}
+	public bool CheckValidPosition(Vector2Int pos)
+	{
+		if (pos.x >= 0 && pos.x < gridWidth)
+			return false;
+		if (pos.y >= 0 && pos.y < gridHeight)
+			return false;
+
+		if (!unitPositions.ContainsKey(pos))
+			return false;
+		return true;
+	}
+
 }

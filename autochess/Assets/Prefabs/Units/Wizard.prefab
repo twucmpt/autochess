@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6229621072084196746, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
+      propertyPath: myType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6229621072084196746, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
       propertyPath: abilities.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 0210cf611f9e4d044916413d18bd9741, type: 2}
@@ -286,3 +290,4 @@ MonoBehaviour:
   includeUser: 0
   friendlyFire: 0
   projectilePrefab: {fileID: 5266561708417888548, guid: 0bfc98555a41a454faaff01b12b3544d, type: 3}
+  speed: 1

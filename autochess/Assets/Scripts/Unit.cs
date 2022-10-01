@@ -1,6 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+
+
+
+
 
 public class Unit : Entity
 {
@@ -14,78 +21,149 @@ public class Unit : Entity
     Ability currentAbility = null;
     Entity currentTarget = null;
     bool waitingOnCooldown = false;
-    Ability[] abilities;
-    void Start() {
-        var added = GameManager.Instance.AddUnit(this, Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
-        if (!added) Destroy(gameObject);
+	GameManager gameManager;
 
-        abilities = GetComponentsInChildren<Ability>();
+	public UnitType type;
+	public unitTypes myType;
 
-        animator = GetComponentInChildren<Animator>();
-        animController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-        animator.runtimeAnimatorController = animController;
+	void Start() 
+	{
+		Init();
     }
 
-    void Update() {
-        // Orient according to facingRight (assuming default sprite faces right)
-        if ((facingRight && Mathf.Sign(transform.localScale.x) < 0) || (!facingRight && Mathf.Sign(transform.localScale.x) > 0)) {
-            Vector3 flipScale = transform.localScale;
-            flipScale.x *= -1;
-            transform.localScale = flipScale;
-        }
+	public void Init()
+	{
+		gameManager = GameManager.Instance;
 
-        // Handle movement
-        gridPos = GameManager.Instance.GetGridPos(this);
-        var gridToWorldPos = new Vector3(gridPos.x, gridPos.y);
-        animator.SetBool("Walking", gridToWorldPos != transform.position);
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("walk")) transform.position = Vector3.MoveTowards(transform.position, gridToWorldPos, Time.deltaTime);
+		var added = GameManager.Instance.AddUnit(this, Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
+		if (!added) Destroy(gameObject);
 
-        // Reduce cooldown on abilities
-        foreach (Ability ability in abilities) ability.ReduceCooldown(Time.deltaTime*speed);
+		animator = GetComponentInChildren<Animator>();
+		animController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+		animator.runtimeAnimatorController = animController;
+		type = gameManager.GetUnitType(myType);
+			
+	}
+	
 
-        // Determine action
-        // Animation state doesn't change right away so need to check animator booleans too
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("idle") && !animator.GetBool("Attacking") && !animator.GetBool("Walking")) {
-            bool atLeastOneAbilityInRange = false;
-            foreach (Ability ability in abilities) {
-                if (atLeastOneAbilityInRange && ability.currentCooldown > 0) continue;
-                var possibleTargets = ability.TargetsInRange(CompareTag("Player")? "Enemy" : "Player");
-                if (possibleTargets.Count > 0) {
-                    atLeastOneAbilityInRange = true;
-                    if (ability.currentCooldown > 0) continue;
-                    currentAbility = ability;
-                    currentTarget = possibleTargets[0];
-                    break;
-                }
-            }
 
-            if (currentAbility is not null) {
-                waitingOnCooldown = false;
-                animController["attack"] = currentAbility.animation;
-                animator.SetBool("Attacking", true);
-                print(gameObject.name + " is attacking " + currentTarget.gameObject.name + " with " + currentAbility.name + ".");
-            }
-            else if (!atLeastOneAbilityInRange) {
-                waitingOnCooldown = false;
-                Advance();
-            }
-            else {
-                if (!waitingOnCooldown) print(gameObject.name + " is waiting for ability to cooldown.");
-                waitingOnCooldown = true;
-            }
-        }
-    }
+	void Update() {
+		UpdateFacingDirection();
+		UpdatePosition();
+		type.UpdateAbilityCooldown(Time.deltaTime*speed);
+		DetermineAction();
+	}
+
 
     void OnDestroy() {
         GameManager.Instance.RemoveUnit(this);
     }
 
-    public void Advance() {
-        var newPos = GameManager.Instance.GetGridPos(this);
+	/// <summary>
+	/// Orient according to facingRight (assuming default sprite faces right)
+	/// </summary>
+	private void UpdateFacingDirection()
+	{
+		if ((facingRight && Mathf.Sign(transform.localScale.x) < 0) || (!facingRight && Mathf.Sign(transform.localScale.x) > 0))
+		{
+			Vector3 flipScale = transform.localScale;
+			flipScale.x *= -1;
+			transform.localScale = flipScale;
+		}
+	}
+
+	/// <summary>
+	/// Updates the position and handles the movement of this unit
+	/// </summary>
+	private void UpdatePosition()
+	{
+		if (gridPos == null)
+			return;
+
+		var gridToWorldPos = new Vector3(gridPos.x, gridPos.y);
+		animator.SetBool("Walking", gridToWorldPos != transform.position);
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("walk")) transform.position = Vector3.MoveTowards(transform.position, gridToWorldPos, Time.deltaTime);
+
+	}
+
+	public void Advance() {
+        var newPos = gridPos;
         newPos += facingRight? Vector2Int.right : Vector2Int.left;
-        GameManager.Instance.MoveUnit(this, newPos);
-        print(gameObject.name + " is advancing to " + newPos.ToString() + ".");
+
+		MoveUnit(newPos);
+
     }
+
+	/// <summary>
+	/// Moves the Unit to a desired position
+	/// </summary>
+	private void MoveUnit(Vector2Int newPos)
+	{
+		if (!gameManager.CheckValidPosition(newPos))
+			return;
+
+		//Update Unit Positions
+		gameManager.unitPositions.Remove(gridPos);
+		gameManager.unitPositions.Add(newPos, this);
+
+		gridPos = newPos;
+
+		print(gameObject.name + " is advancing to " + newPos.ToString() + ".");
+	}
+
+	
+
+
+	/// <summary>
+	/// Determines the next action for this unit
+	/// Animation state doesn't change right away so need to check animator booleans too
+	/// </summary>
+	private void DetermineAction()
+	{
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("idle") && !animator.GetBool("Attacking") && !animator.GetBool("Walking"))
+		{
+			bool atLeastOneAbilityInRange = false;
+
+
+			//Temporary Needs to be removed
+			List<Ability> abilities = new() { type.ability };
+
+			foreach (Ability ability in abilities)
+			{
+				if (ability == null)
+					continue;
+
+				if (atLeastOneAbilityInRange && ability.currentCooldown > 0 ) continue;
+				var possibleTargets = ability.TargetsInRange(CompareTag("Player") ? "Enemy" : "Player");
+				if (possibleTargets.Count > 0)
+				{
+					atLeastOneAbilityInRange = true;
+					if (ability.currentCooldown > 0) continue;
+					currentAbility = ability;
+					currentTarget = possibleTargets[0];
+					break;
+				}
+			}
+
+			if (currentAbility is not null)
+			{
+				waitingOnCooldown = false;
+				animController["attack"] = currentAbility.animation;
+				animator.SetBool("Attacking", true);
+				print(gameObject.name + " is attacking " + currentTarget.gameObject.name + " with " + currentAbility.name + ".");
+			}
+			else if (!atLeastOneAbilityInRange)
+			{
+				waitingOnCooldown = false;
+				Advance();
+			}
+			else
+			{
+				if (!waitingOnCooldown) print(gameObject.name + " is waiting for ability to cooldown.");
+				waitingOnCooldown = true;
+			}
+		}
+	}
 
     public void DestroySelf() {
         Destroy(gameObject);
