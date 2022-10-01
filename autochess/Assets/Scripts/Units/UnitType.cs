@@ -28,7 +28,10 @@ public class UnitType
 	/// <summary>
 	/// Initialization Method that can be called outside of Unity Start and Awake methods
 	/// </summary>
-	public virtual void Init(){ }
+	public virtual void Init()
+	{
+
+	}
 
 	/// <summary>
 	/// A method that handles the basic attack function of a unit type
@@ -67,9 +70,6 @@ public class MeleeZombie : UnitType
 	{
 		base.Init();
 		type = unitTypes.MeleeZombie;
-		PunchAttack attack = new PunchAttack();
-		attack.Init();
-		abilities.Add(attack);
 	}
 }
 
@@ -78,9 +78,6 @@ public class BowSkeleton : UnitType
 	public override void Init()
 	{
 		base.Init();
-		ProjectileAttack attack = new ProjectileAttack();
-		attack.Init();
-		abilities.Add(attack);
 		type = unitTypes.BowSkeleton;
 	}
 }
@@ -90,9 +87,6 @@ public class HumanPeasent : UnitType
 	public override void Init()
 	{
 		base.Init();
-		type = unitTypes.HumanPeasent; 
-		PunchAttack attack = new PunchAttack();
-		attack.Init();
-		abilities.Add(attack);
+		type = unitTypes.HumanPeasent;
 	}
 }

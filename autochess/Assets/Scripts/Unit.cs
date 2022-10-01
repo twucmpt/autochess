@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -38,7 +39,9 @@ public class Unit : Entity
 		animator = GetComponentInChildren<Animator>();
 		animController = new AnimatorOverrideController(animator.runtimeAnimatorController);
 		animator.runtimeAnimatorController = animController;
-		type = gameManager.GetUnitType(myType);	
+		type = gameManager.GetUnitType(myType);
+
+		type.abilities = GetComponentsInChildren<Ability>().ToList();
 	}
 	
 
