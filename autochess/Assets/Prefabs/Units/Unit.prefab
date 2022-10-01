@@ -436,6 +436,7 @@ MonoBehaviour:
         m_CallState: 2
   power: 10
   facingRight: 1
+  isEnemy: 0
   speed: 1
   gridPos: {x: 0, y: 0}
   myType: 0
@@ -1051,7 +1052,7 @@ Animator:
   m_GameObject: {fileID: 6152372078732052134}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6b159ce4aa90ca04199be64ea5db3511, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -14,7 +14,6 @@ public class UnitDataDisplay : MonoBehaviour
 
     public void OnSlotUpdated(int slot) {
         Unit unit = shop.GetShopUnit(slot).GetComponent<Unit>();
-        if (unit.type is null) unit.Init();
         costText.SetText(unit.type.cost.ToString());
     }
 }

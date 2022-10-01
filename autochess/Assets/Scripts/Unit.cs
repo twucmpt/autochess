@@ -36,7 +36,6 @@ public class Unit : Entity
 	public void Init()
 	{
 		gameManager = GameManager.Instance;
-
 		animator = GetComponentInChildren<Animator>();
 		animController = new AnimatorOverrideController(animator.runtimeAnimatorController);
 		animator.runtimeAnimatorController = animController;
