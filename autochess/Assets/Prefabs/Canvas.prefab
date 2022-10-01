@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 025ba530f874cc440a71ebab0009ea27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefix: 'Gold: '
 --- !u!1 &3868826439610851586
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +441,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfc153e2e10a8a4c96d0e0c63875e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitSelectionList: []
+  unitSelectionList:
+  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
+  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
+  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
+  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
+  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
+  slots:
+  - {fileID: 7474421690491339269}
+  - {fileID: 7131181041357974561}
+  - {fileID: 7131181040891183711}
+  - {fileID: 7131181041040039959}
+  - {fileID: 7131181040167989320}
   bench: {fileID: 0}
   shopUnitRenderer: {fileID: 0}
   units:
@@ -1004,6 +1016,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+--- !u!1 &7131181041040039959 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3608459612959631900, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+  m_PrefabInstance: {fileID: 5829023208547568139}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7923515620047062401 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4400336520386858890, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
@@ -1238,6 +1255,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+--- !u!1 &7131181040891183711 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3608459612959631900, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+  m_PrefabInstance: {fileID: 5829023208658741315}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7923515620267321289 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4400336520386858890, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
@@ -1468,6 +1490,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+--- !u!1 &7131181041357974561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3608459612959631900, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+  m_PrefabInstance: {fileID: 5829023208865072701}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7923515619796797879 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4400336520386858890, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
@@ -1702,6 +1729,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+--- !u!1 &7131181040167989320 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3608459612959631900, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+  m_PrefabInstance: {fileID: 5829023209822607956}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7923515618772227550 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4400336520386858890, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
@@ -1932,6 +1964,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+--- !u!1 &7474421690491339269 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3608459612959631900, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
+  m_PrefabInstance: {fileID: 6172649531297720345}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7545933781185406867 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4400336520386858890, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}

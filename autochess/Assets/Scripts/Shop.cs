@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Shop : MonoBehaviour
 {
     public List<GameObject> unitSelectionList = new ();
+    public GameObject[] slots = new GameObject[5];
 
     public Bench bench;
     public Transform shopUnitRenderer;
@@ -21,6 +22,8 @@ public class Shop : MonoBehaviour
         int cost = units[slot].GetComponent<Unit>().type.cost;
         if (GameManager.Instance.currency > cost && bench.AddUnit(units[slot])) {
             GameManager.Instance.currency -= cost;
+
+            SetShopUnit(slot, null);
             print("Purchase successful");
         }
         else {
@@ -33,9 +36,16 @@ public class Shop : MonoBehaviour
         if (slotRenderer.childCount > 1) {
             Destroy(slotRenderer.GetChild(1).gameObject);
         }
-        units[slot] = Instantiate(prefab, slotRenderer);
-        units[slot].GetComponent<Unit>().Init();
-        foreach (var component in units[slot].GetComponents<MonoBehaviour>()) component.enabled = false;
+
+        if (prefab == null) {
+            slots[slot].SetActive(false);
+        }
+        else {
+            slots[slot].SetActive(true);
+            units[slot] = Instantiate(prefab, slotRenderer);
+            units[slot].GetComponent<Unit>().Init();
+            foreach (var component in units[slot].GetComponents<MonoBehaviour>()) component.enabled = false;
+        }
 
         SlotUpdated.Invoke(slot);
     }
