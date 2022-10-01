@@ -412,13 +412,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5946530589819610558}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e05f6f65e6783734496a75a52d168997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 20
+  currentHealth: 20
   OnZeroHealth:
     m_PersistentCalls:
       m_Calls:
@@ -439,6 +439,7 @@ MonoBehaviour:
   speed: 1
   gridPos: {x: 0, y: 0}
   myType: 2
+  originalPosition: {x: 0, y: 0}
 --- !u!58 &5955302400733746537
 CircleCollider2D:
   m_ObjectHideFlags: 0

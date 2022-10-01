@@ -27,6 +27,7 @@ public class Unit : Entity
 
 	public UnitType type;
 	public unitTypes myType;
+    public Vector2Int originalPosition;
 
 	void Start() 
 	{
@@ -47,9 +48,6 @@ public class Unit : Entity
 
 
 	void Update() {
-		if (isEnemy && gameManager.currentPhase == GamePhase.Planning)
-			Destroy(gameObject);
-
 		UpdateFacingDirection();
 		UpdatePosition();
 		type.UpdateAbilityCooldown(Time.deltaTime*speed);

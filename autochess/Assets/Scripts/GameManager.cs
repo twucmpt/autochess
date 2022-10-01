@@ -23,6 +23,7 @@ public class GameManager : Singleton<GameManager>
 	public List<Unit> enemyUnitCache = new();
     public Dictionary<unitTypes, UnitType> unitTypeEnumToClass = new();
 	public GameObject pausedGameIndicator;
+	public GameObject startRoundButton;
 	public bool CanRedeployFromGrid = false;
 	public bool CanRedeployFromBench = false;
 
@@ -35,6 +36,10 @@ public class GameManager : Singleton<GameManager>
 		base.Awake();
 		Init();
 
+	}
+
+	void Start() {
+		OnPlanningPhaseStart();
 	}
 
 	public void Init()
@@ -53,8 +58,8 @@ public class GameManager : Singleton<GameManager>
 		GameObject wizard = unitListHelpers.Where(x => x.type == unitTypes.BowSkeleton).FirstOrDefault().unitPrefab;
 		GameObject human = unitListHelpers.Where(x => x.type == unitTypes.HumanPeasent).FirstOrDefault().unitPrefab;
 
-		AddUnitFromPrefab(new Vector2Int(0, 0), zombie);
-		AddUnitFromPrefab(new Vector2Int(0, 2), wizard);
+		//AddUnitFromPrefab(new Vector2Int(0, 0), zombie);
+		//AddUnitFromPrefab(new Vector2Int(0, 2), wizard);
 		AddUnitFromPrefab(new Vector2Int(9, 0), human);
 	}
 
@@ -86,7 +91,7 @@ public class GameManager : Singleton<GameManager>
 		if (totalTimeInCombat > maxTimeInCombat)
 			OnRoundEndTimeout();
 
-		if (CheckRoundState())
+		if (currentPhase != GamePhase.Planning && CheckRoundState())
 			OnRoundEnd();
 
 		if (time >= 10)
@@ -107,6 +112,68 @@ public class GameManager : Singleton<GameManager>
 		}
 	}
 
+	public void EnableRedeployment() {
+		foreach(var unit in Graveyard.Instance.units) {
+			unit.GetComponent<Draggable>().enabled = true;
+		}
+
+		foreach(var unit in unitPositions.Values) {
+			unit.GetComponent<Unit>().enabled = false;
+			if (CanRedeployFromGrid) {
+				if (unit.CompareTag("Player")) unit.GetComponent<Draggable>().enabled = true;
+			}
+		}
+
+		if (CanRedeployFromBench) {
+		for(int i = 0; i < Bench.Instance.units.Length; i++) {
+			if (Bench.Instance.units[i] == null) continue;
+			Bench.Instance.units[i].GetComponent<Draggable>().enabled = true;
+		}
+		}
+	}
+	public void DisableRedeployment() {
+		foreach(var unit in Graveyard.Instance.units) {
+			unit.GetComponent<Draggable>().enabled = true;
+		}
+		foreach(var unit in unitPositions.Values) {
+			unit.GetComponent<Unit>().enabled = true;
+			if (unit.CompareTag("Player")) unit.GetComponent<Draggable>().enabled = false;
+		}
+		for(int i = 0; i < Bench.Instance.units.Length; i++) {
+			if (Bench.Instance.units[i] == null) continue;
+			Bench.Instance.units[i].GetComponent<Draggable>().enabled = false;
+		}
+	}
+
+	public void RestoreUnitsToOriginalPlacement() {
+		while (Graveyard.Instance.units.Count > 0) {
+			var unit = Graveyard.Instance.units[0];
+			Graveyard.Instance.units.RemoveAt(0);
+			AddUnit(unit.GetComponent<Unit>().originalPosition, unit);
+		}
+		var units = unitPositions.Values.ToList<Unit>();
+		foreach (var unit in units) {
+			if (!unit.CompareTag("Player")) continue;
+			RemoveUnit(unit);
+			AddUnit(unit.originalPosition, unit.gameObject);
+		}
+	}
+
+	public void RecordOriginalPositions() {
+		foreach(var kv in unitPositions) {
+			kv.Value.originalPosition = kv.Key;
+		}
+	}
+
+	public void OnPlanningPhaseStart() {
+		currentPhase = GamePhase.Planning;
+		CanRedeployFromBench = true;
+		pausedGameIndicator.SetActive(true);
+		startRoundButton.SetActive(true);
+		RestoreUnitsToOriginalPlacement();
+		EnableRedeployment();
+	}
+
 	/// <summary>
 	/// A method that is called when the tactical phase ends
 	/// </summary>
@@ -114,7 +181,11 @@ public class GameManager : Singleton<GameManager>
 	public void OnPlanningPhaseEnd()
 	{
 		currentPhase = GamePhase.Combat;
-		throw new NotImplementedException();
+		CanRedeployFromBench = false;
+		pausedGameIndicator.SetActive(false);
+		startRoundButton.SetActive(false);
+		DisableRedeployment();
+		RecordOriginalPositions();
 		// TODO: Things that need to happen in the combat phase that are triggered on this method call
 		//	1. Dynamic Enemy Generation on a round to round basis (enemies may be continually responding)
 		//	2. Players Units Activate to fight oncoming enemies
@@ -142,17 +213,7 @@ public class GameManager : Singleton<GameManager>
 	{
 		currentPhase = GamePhase.Combat;
 		pausedGameIndicator.SetActive(false);
-		foreach(var unit in Graveyard.Instance.units) {
-			unit.GetComponent<Draggable>().enabled = true;
-		}
-		foreach(var unit in unitPositions.Values) {
-			unit.GetComponent<Unit>().enabled = true;
-			if (unit.CompareTag("Player")) unit.GetComponent<Draggable>().enabled = false;
-		}
-		for(int i = 0; i < Bench.Instance.units.Length; i++) {
-			if (Bench.Instance.units[i] == null) continue;
-			Bench.Instance.units[i].GetComponent<Draggable>().enabled = false;
-		}
+		DisableRedeployment();
 		//TODO: Things that need to happen upon resuming combat
 	}
 
@@ -163,6 +224,7 @@ public class GameManager : Singleton<GameManager>
 	public void OnRoundEndTimeout()
 	{
 		currentPhase = GamePhase.Planning;
+		OnPlanningPhaseStart();
 		throw new NotImplementedException();
 	}
 
@@ -173,6 +235,7 @@ public class GameManager : Singleton<GameManager>
 	public void OnRoundEnd()
 	{
 		currentPhase = GamePhase.Planning;
+		OnPlanningPhaseStart();
 		throw new NotImplementedException();
 	}
 
@@ -183,24 +246,7 @@ public class GameManager : Singleton<GameManager>
 	{
 		currentPhase = GamePhase.Redeployment;
 		pausedGameIndicator.SetActive(true);
-
-		foreach(var unit in Graveyard.Instance.units) {
-			unit.GetComponent<Draggable>().enabled = true;
-		}
-
-		foreach(var unit in unitPositions.Values) {
-			unit.GetComponent<Unit>().enabled = false;
-			if (CanRedeployFromGrid) {
-				if (unit.CompareTag("Player")) unit.GetComponent<Draggable>().enabled = true;
-			}
-		}
-
-		if (CanRedeployFromBench) {
-		for(int i = 0; i < Bench.Instance.units.Length; i++) {
-			if (Bench.Instance.units[i] == null) continue;
-			Bench.Instance.units[i].GetComponent<Draggable>().enabled = true;
-		}
-		}
+		EnableRedeployment();
 	}
 
 	/// <summary>
