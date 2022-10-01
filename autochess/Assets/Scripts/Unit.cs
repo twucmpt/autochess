@@ -14,6 +14,7 @@ public class Unit : Entity
 {
     public int power = 10;
     public bool facingRight = true;
+	public bool isEnemy = false;
     public float speed = 1;
     public Vector2Int gridPos;
 
@@ -47,6 +48,7 @@ public class Unit : Entity
 
 
 	void Update() {
+
 		UpdateFacingDirection();
 		UpdatePosition();
 		type.UpdateAbilityCooldown(Time.deltaTime*speed);

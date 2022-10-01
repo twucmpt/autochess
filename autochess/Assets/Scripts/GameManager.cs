@@ -1,16 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum GamePhase
+{
+	Planning,
+	Combat,
+	Redeployment,
+}
+
 public class GameManager : Singleton<GameManager>
 {
     public int gridWidth;
     public int gridHeight;
+	public GamePhase currentPhase = GamePhase.Planning;
 
 	public List<UnitListHelper> unitListHelpers = new();
 
 	public Dictionary<Vector2Int, Unit> unitPositions = new();
+	public List<Unit> enemyUnitCache = new();
     public Dictionary<unitTypes, UnitType> unitTypeEnumToClass = new();
 
 	
@@ -43,6 +53,103 @@ public class GameManager : Singleton<GameManager>
 		AddUnit(new Vector2Int(9, 0), human);
 	}
 
+
+	/// <summary>
+	/// Time in Seconds
+	/// </summary>
+	public float time = 0;
+	/// <summary>
+	/// Time in Seconds
+	/// </summary>
+	private float totalTimeInCombat = 0;
+	/// <summary>
+	/// Time in Seconds
+	/// </summary>
+	private float maxTimeInCombat = 500;
+
+	public void Update()
+	{
+		if (currentPhase == GamePhase.Combat)
+		{
+			time += Time.deltaTime;
+			totalTimeInCombat += Time.deltaTime;
+		}
+		else if (currentPhase == GamePhase.Planning)
+			totalTimeInCombat = 0;
+		else if (currentPhase == GamePhase.Redeployment)
+			return;
+		if (totalTimeInCombat > maxTimeInCombat)
+			OnEndRoundTimeout();
+
+		if (CheckRoundState())
+			OnRoundEnd();
+
+		if (time >= 10)
+		{
+			time -= 10;
+			ActivateRedeployment();
+		}
+	}
+
+	/// <summary>
+	/// A method that is called when the tactical phase ends
+	/// </summary>
+	/// <exception cref="NotImplementedException"></exception>
+	public void OnEndTacticalPhase()
+	{
+		throw new NotImplementedException();
+	}
+
+	/// <summary>
+	/// A method that is called when the tactical phase ends
+	/// </summary>
+	/// <exception cref="NotImplementedException"></exception>
+	public void OnRedeploymentPhaseEnds()
+	{
+		throw new NotImplementedException();
+	}
+
+	/// <summary>
+	/// Checks if round is over
+	/// </summary>
+	/// <returns>true = round is done, false = round is NOT done</returns>
+	public bool CheckRoundState()
+	{
+
+		if (enemyUnitCache.Count > 0)
+			return false;
+
+		return true;
+	}
+
+	
+
+	/// <summary>
+	/// A method to handle the situation when the round was ended due to the round taking too long. 
+	/// </summary>
+	/// <exception cref="NotImplementedException"></exception>
+	public void OnEndRoundTimeout()
+	{
+		throw new NotImplementedException();
+	}
+
+	/// <summary>
+	/// A method to handle the end of a round.
+	/// </summary>
+	/// <exception cref="NotImplementedException"></exception>
+	public void OnRoundEnd()
+	{
+		throw new NotImplementedException();
+	}
+
+	/// <summary>
+	/// This is the method that is called every 10 seconds to trigger the redeployment phase
+	/// </summary>
+	public void ActivateRedeployment()
+	{
+		throw new NotImplementedException();
+	}
+
 	/// <summary>
 	/// Adds a Unit to the unit dictionary if the position is available
 	/// </summary>
@@ -60,6 +167,9 @@ public class GameManager : Singleton<GameManager>
 
 		Unit unit = newUnitGO.GetComponent<Unit>();
 		unit.gridPos = pos;
+
+		if (unit.isEnemy)
+			enemyUnitCache.Add(unit);
 
 		if (CheckValidPosition(pos)) return false;
 
