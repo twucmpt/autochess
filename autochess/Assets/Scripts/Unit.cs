@@ -140,6 +140,12 @@ public class Unit : Entity
 			if (currentAbility is not null)
 			{
 				waitingOnCooldown = false;
+				if (currentAbility.animation == null)
+				{
+					Debug.LogError($"Missing attack animation on {currentAbility.name}");
+					return;
+				}
+
 				animController["attack"] = currentAbility.animation;
 				animator.SetBool("Attacking", true);
 				print(gameObject.name + " is attacking " + currentTarget.gameObject.name + " with " + currentAbility.name + ".");

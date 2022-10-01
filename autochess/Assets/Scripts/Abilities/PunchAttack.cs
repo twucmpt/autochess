@@ -3,9 +3,17 @@ using UnityEngine;
 
 public class PunchAttack : Ability
 {
-	public PunchAttack()
+	public void Init()
 	{
-		
+		angle = 0;
+		power = 5;
+		cooldown = 5;
+		range = 1;
+		rangeType = AttackRangeType.Linear;
+		includeUser = false;
+		friendlyFire = false;
+
+		animation = Resources.Load<AnimationClip>("Animations/attack.anim");
 	}
 	public override void AnimationImpactCallback(Entity target)
 	{

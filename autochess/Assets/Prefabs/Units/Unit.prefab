@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 5955302400733746537}
   m_Layer: 6
   m_Name: Unit
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -436,10 +436,9 @@ MonoBehaviour:
         m_CallState: 2
   power: 10
   facingRight: 1
-  abilities:
-  - {fileID: 779270708979060153}
-  - {fileID: 779270708979060153}
+  speed: 1
   gridPos: {x: 0, y: 0}
+  myType: 0
 --- !u!58 &5955302400733746537
 CircleCollider2D:
   m_ObjectHideFlags: 0

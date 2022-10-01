@@ -67,7 +67,9 @@ public class MeleeZombie : UnitType
 	{
 		base.Init();
 		type = unitTypes.MeleeZombie;
-		abilities.Add(new PunchAttack());
+		PunchAttack attack = new PunchAttack();
+		attack.Init();
+		abilities.Add(attack);
 	}
 }
 
@@ -76,7 +78,9 @@ public class BowSkeleton : UnitType
 	public override void Init()
 	{
 		base.Init();
-		abilities.Add( new ProjectileAttack());
+		ProjectileAttack attack = new ProjectileAttack();
+		attack.Init();
+		abilities.Add(attack);
 		type = unitTypes.BowSkeleton;
 	}
 }
@@ -86,7 +90,9 @@ public class HumanPeasent : UnitType
 	public override void Init()
 	{
 		base.Init();
-		type = unitTypes.HumanPeasent;
-		abilities.Add(new PunchAttack());
+		type = unitTypes.HumanPeasent; 
+		PunchAttack attack = new PunchAttack();
+		attack.Init();
+		abilities.Add(attack);
 	}
 }

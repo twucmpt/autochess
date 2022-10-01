@@ -7,7 +7,7 @@ public enum AttackRangeType
 	Cone,
 }
 
-public class Ability : MonoBehaviour
+public class Ability
 {
     new public string name;
     new public AnimationClip animation;
@@ -22,9 +22,6 @@ public class Ability : MonoBehaviour
 
     protected Unit user;
 
-    void Start() {
-        user = GetComponentInParent<Unit>();
-    }
 
     public List<Entity> TargetsInRange(string targetTag) {
         var targets = new List<Entity>();
