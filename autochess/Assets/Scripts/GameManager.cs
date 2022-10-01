@@ -29,6 +29,8 @@ public class GameManager : Singleton<GameManager>
 	public bool CanRedeployFromBench = false;
 	public Entity warlock;
 
+	public int enemiesRemaining = 10;
+
 	private Dictionary<float, List<GameObject>> cachedEnemySelectionWeight = new();
 
 	private Dictionary<Vector2Int, Stack<GameObject>> enemySpawnStacks = new();
@@ -55,24 +57,13 @@ public class GameManager : Singleton<GameManager>
 		unitTypeEnumToClass.Add(unitTypes.BowSkeleton, new BowSkeleton());
 		unitTypeEnumToClass.Add(unitTypes.HumanPeasent, new HumanPeasent());
 
-		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 0), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 1), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 2), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 3), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 4), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 5), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth, 0), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth, 1), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth, 2), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth, 3), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth, 4), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth, 5), new Stack<GameObject>());
 
-		InitTest();
-	}
-	private void InitTest()
-	{
-		GameObject zombie = unitListHelpers.Where(x => x.type == unitTypes.MeleeZombie).FirstOrDefault().unitPrefab;
-		GameObject wizard = unitListHelpers.Where(x => x.type == unitTypes.BowSkeleton).FirstOrDefault().unitPrefab;
-		GameObject human = GetEnemyUnit(0);
-
-		//AddUnitFromPrefab(new Vector2Int(0, 0), zombie);
-		//AddUnitFromPrefab(new Vector2Int(0, 2), wizard);
-		AddUnitFromPrefab(new Vector2Int(9, 0), human);
 	}
 
 
@@ -291,21 +282,22 @@ public class GameManager : Singleton<GameManager>
 	/// <summary>
 	/// Adds a Unit to the unit dictionary if the position is available
 	/// </summary>
-	public bool AddUnitFromPrefab( Vector2Int pos, GameObject unitPrefab)
+	public bool AddUnitFromPrefab(Vector2Int pos, GameObject unitPrefab, bool EnableUnit = false)
 	{
 		if (!CheckValidPosition(pos, unitPrefab.tag)) return false;
 
 		GameObject newUnitGO = Instantiate(unitPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
-		return AddUnit(pos, newUnitGO);
+		return AddUnit(pos, newUnitGO, EnableUnit);
 	}
 
-	public bool AddUnit(Vector2Int pos, GameObject unitGO) {
+	public bool AddUnit(Vector2Int pos, GameObject unitGO, bool EnableUnit = false) {
 		if (!CheckValidPosition(pos, unitGO.tag)) return false;
 
 		unitGO.transform.parent = transform;
 
 		Unit unit = unitGO.GetComponent<Unit>();
 		unit.gridPos = pos;
+		unit.enabled = EnableUnit;
 
 		if (unit.isEnemy)
 			enemyUnitCache.Add(unit);
@@ -370,16 +362,16 @@ public class GameManager : Singleton<GameManager>
 			if (!CheckValidSpawn(loc.Key))
 				continue;
 
-			AddUnitFromPrefab(loc.Key, loc.Value.Pop());
+			AddUnitFromPrefab(loc.Key, loc.Value.Pop(), true);
 		}
 	}
 
 	public void GenerateEnemies(float difficulty)
 	{
-		int unitsToSpawn = (int)Math.Min(Math.Max(
+		int unitsToSpawn = (int)Math.Min(enemiesRemaining, Math.Min(Math.Max(
 				1,
 				UnityEngine.Random.Range(0, Mathf.Ceil(difficulty / 3))
-			), gridHeight - 1);
+			), gridHeight - 1));
 
 		List<Vector2Int> spawnLocations = Utility.TakeMultiple<Vector2Int>(enemySpawnStacks.Keys.ToList(), unitsToSpawn);
 
@@ -387,6 +379,7 @@ public class GameManager : Singleton<GameManager>
 		{
 			Stack<GameObject> spawnStack = enemySpawnStacks[loc];
 			spawnStack.Push(GetEnemyUnit(difficulty));
+			enemiesRemaining = Math.Max(0,enemiesRemaining-1);
 		}
 	}
 
