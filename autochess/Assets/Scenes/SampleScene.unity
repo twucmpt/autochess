@@ -1410,6 +1410,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfc153e2e10a8a4c96d0e0c63875e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &624500401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3950435021441579883, guid: 54337857d0d78fc42bd2f245e14ad6a9, type: 3}
+  m_PrefabInstance: {fileID: 624500399}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &752759287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 752759289}
+  - component: {fileID: 752759288}
+  m_Layer: 0
+  m_Name: Graveyard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &752759288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752759287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e72dfbcd79a5ac4f9041da27193cc89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  units: []
+--- !u!4 &752759289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752759287}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1766713795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1539,7 +1589,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shop Unit Renders
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1526415714492212472, guid: 9ca68d3ed426ec6468781c96ef305129, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9ca68d3ed426ec6468781c96ef305129, type: 3}
 --- !u!1001 &2044115187319940312
 PrefabInstance:
@@ -1600,6 +1651,14 @@ PrefabInstance:
       propertyPath: gridHeight
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8084320475353613746, guid: aba14ff1161ca964cbb611aa71b889d9, type: 3}
+      propertyPath: currentPhase
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8084320475353613746, guid: aba14ff1161ca964cbb611aa71b889d9, type: 3}
+      propertyPath: pausedGameIndicator
+      value: 
+      objectReference: {fileID: 624500401}
     - target: {fileID: 8269817355156100370, guid: aba14ff1161ca964cbb611aa71b889d9, type: 3}
       propertyPath: m_Name
       value: GameManager

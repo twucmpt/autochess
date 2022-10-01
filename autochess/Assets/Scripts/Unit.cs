@@ -14,7 +14,7 @@ public class Unit : Entity
 {
     public int power = 10;
     public bool facingRight = true;
-	public bool isEnemy = false;
+	public bool isEnemy {get{return CompareTag("Enemy");}}
     public float speed = 1;
     public Vector2Int gridPos;
 
@@ -48,7 +48,7 @@ public class Unit : Entity
 
 	void Update() {
 		if (isEnemy && gameManager.currentPhase == GamePhase.Planning)
-			DestroySelf();
+			Destroy(gameObject);
 
 		UpdateFacingDirection();
 		UpdatePosition();
@@ -79,9 +79,6 @@ public class Unit : Entity
 	/// </summary>
 	private void UpdatePosition()
 	{
-		if (gridPos == null)
-			return;
-
 		var gridToWorldPos = new Vector3(gridPos.x, gridPos.y);
 		animator.SetBool("Walking", gridToWorldPos != transform.position);
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("walk")) transform.position = Vector3.MoveTowards(transform.position, gridToWorldPos, Time.deltaTime);
@@ -99,10 +96,10 @@ public class Unit : Entity
 	/// <summary>
 	/// Moves the Unit to a desired position
 	/// </summary>
-	private void MoveUnit(Vector2Int newPos)
+	public bool MoveUnit(Vector2Int newPos)
 	{
 		if (!gameManager.CheckValidPosition(newPos))
-			return;
+			return false;
 
 		//Update Unit Positions
 		gameManager.unitPositions.Remove(gridPos);
@@ -111,6 +108,7 @@ public class Unit : Entity
 		gridPos = newPos;
 
 		print(gameObject.name + " is advancing to " + newPos.ToString() + ".");
+        return true;
 	}
 
 	
@@ -169,8 +167,12 @@ public class Unit : Entity
 		}
 	}
 
-    public void DestroySelf() {
-        Destroy(gameObject);
+    public void OnDeath() {
+        if (isEnemy) Destroy(gameObject);
+        else {
+            Graveyard.Instance.AddUnit(gameObject);
+            gameManager.RemoveUnit(this);
+        }
     }
 
     public void AnimationStartCallback() {

@@ -33,9 +33,9 @@ public class Ability : MonoBehaviour
             case AttackRangeType.Linear:
                 var linearHits = Physics2D.RaycastAll(user.transform.position, user.facingRight ? Vector2.right : Vector2.left, range, LayerMask.GetMask("Entities"));
                 foreach (var hit in linearHits) {
-                    if (targetTag is null || hit.collider.transform.root.CompareTag(targetTag)) {
-                        Entity unit = hit.collider.transform.root.GetComponent<Entity>();
-                        if (includeUser || unit != user) targets.Add(unit);
+                    if (targetTag is null || hit.collider.transform.CompareTag(targetTag)) {
+                        Entity unit = hit.collider.transform.GetComponent<Entity>();
+                        if ((includeUser || unit != user) && unit.enabled) targets.Add(unit);
                     }
                 }
                 return targets;
@@ -49,7 +49,7 @@ public class Ability : MonoBehaviour
                     if (targetAngle > angle) continue;
 
                     Entity unit = collider.transform.GetComponent<Entity>();
-                    if (includeUser || unit != user) targets.Add(unit);
+                    if ((includeUser || unit != user) && unit.enabled) targets.Add(unit);
                 }
                 return targets;
         }

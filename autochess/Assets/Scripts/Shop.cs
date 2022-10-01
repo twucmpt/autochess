@@ -45,7 +45,7 @@ public class Shop : MonoBehaviour
             slots[slot].SetActive(true);
             units[slot] = Instantiate(prefab, slotRenderer);
             units[slot].GetComponent<Unit>().Init();
-            foreach (var component in units[slot].GetComponents<MonoBehaviour>()) component.enabled = false;
+            units[slot].GetComponent<Unit>().enabled = false;
         }
 
         SlotUpdated.Invoke(slot);

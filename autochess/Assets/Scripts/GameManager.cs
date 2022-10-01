@@ -22,6 +22,10 @@ public class GameManager : Singleton<GameManager>
 	public Dictionary<Vector2Int, Unit> unitPositions = new();
 	public List<Unit> enemyUnitCache = new();
     public Dictionary<unitTypes, UnitType> unitTypeEnumToClass = new();
+	public GameObject pausedGameIndicator;
+	public bool CanRedeployFromGrid = false;
+	public bool CanRedeployFromBench = false;
+
 
 	public int currency = 0;
 	
@@ -49,9 +53,9 @@ public class GameManager : Singleton<GameManager>
 		GameObject wizard = unitListHelpers.Where(x => x.type == unitTypes.BowSkeleton).FirstOrDefault().unitPrefab;
 		GameObject human = unitListHelpers.Where(x => x.type == unitTypes.HumanPeasent).FirstOrDefault().unitPrefab;
 
-		AddUnit(new Vector2Int(0, 0), zombie);
-		AddUnit(new Vector2Int(0, 2), wizard);
-		AddUnit(new Vector2Int(9, 0), human);
+		AddUnitFromPrefab(new Vector2Int(0, 0), zombie);
+		AddUnitFromPrefab(new Vector2Int(0, 2), wizard);
+		AddUnitFromPrefab(new Vector2Int(9, 0), human);
 	}
 
 
@@ -78,7 +82,7 @@ public class GameManager : Singleton<GameManager>
 		else if (currentPhase == GamePhase.Planning)
 			totalTimeInCombat = 0;
 		else if (currentPhase == GamePhase.Redeployment)
-			return;
+			time += Time.deltaTime;
 		if (totalTimeInCombat > maxTimeInCombat)
 			OnRoundEndTimeout();
 
@@ -88,7 +92,18 @@ public class GameManager : Singleton<GameManager>
 		if (time >= 10)
 		{
 			time -= 10;
-			OnStartRedeployment();
+			SwitchPhase();
+		}
+	}
+
+	public void SwitchPhase() {
+		switch(currentPhase) {
+			case GamePhase.Combat:
+				OnStartRedeployment();
+				return;
+			case GamePhase.Redeployment:
+				OnRedeploymentPhaseEnds();
+				return;
 		}
 	}
 
@@ -126,8 +141,18 @@ public class GameManager : Singleton<GameManager>
 	public void OnRedeploymentPhaseEnds()
 	{
 		currentPhase = GamePhase.Combat;
-		throw new NotImplementedException();
-
+		pausedGameIndicator.SetActive(false);
+		foreach(var unit in Graveyard.Instance.units) {
+			unit.GetComponent<Draggable>().enabled = true;
+		}
+		foreach(var unit in unitPositions.Values) {
+			unit.GetComponent<Unit>().enabled = true;
+			if (unit.CompareTag("Player")) unit.GetComponent<Draggable>().enabled = false;
+		}
+		for(int i = 0; i < Bench.Instance.units.Length; i++) {
+			if (Bench.Instance.units[i] == null) continue;
+			Bench.Instance.units[i].GetComponent<Draggable>().enabled = false;
+		}
 		//TODO: Things that need to happen upon resuming combat
 	}
 
@@ -157,35 +182,60 @@ public class GameManager : Singleton<GameManager>
 	public void OnStartRedeployment()
 	{
 		currentPhase = GamePhase.Redeployment;
-		throw new NotImplementedException();
+		pausedGameIndicator.SetActive(true);
+
+		foreach(var unit in Graveyard.Instance.units) {
+			unit.GetComponent<Draggable>().enabled = true;
+		}
+
+		foreach(var unit in unitPositions.Values) {
+			unit.GetComponent<Unit>().enabled = false;
+			if (CanRedeployFromGrid) {
+				if (unit.CompareTag("Player")) unit.GetComponent<Draggable>().enabled = true;
+			}
+		}
+
+		if (CanRedeployFromBench) {
+		for(int i = 0; i < Bench.Instance.units.Length; i++) {
+			if (Bench.Instance.units[i] == null) continue;
+			Bench.Instance.units[i].GetComponent<Draggable>().enabled = true;
+		}
+		}
 	}
 
 	/// <summary>
 	/// Adds a Unit to the unit dictionary if the position is available
 	/// </summary>
-	public bool AddUnit(int x, int y, GameObject unitGO)
+	public bool AddUnitFromPrefab(int x, int y, GameObject unitGO)
 	{
-		return AddUnit(new Vector2Int(x, y), unitGO);
+		return AddUnitFromPrefab(new Vector2Int(x, y), unitGO);
 	}
 	/// <summary>
 	/// Adds a Unit to the unit dictionary if the position is available
 	/// </summary>
-	public bool AddUnit( Vector2Int pos, GameObject unitPrefab)
+	public bool AddUnitFromPrefab( Vector2Int pos, GameObject unitPrefab)
 	{
+		if (!CheckValidPosition(pos)) return false;
+
 		GameObject newUnitGO = Instantiate(unitPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
-		newUnitGO.gameObject.transform.parent = transform;
+		return AddUnit(pos, newUnitGO);
+	}
 
-		Unit unit = newUnitGO.GetComponent<Unit>();
+	public bool AddUnit(Vector2Int pos, GameObject unitGO) {
+		if (!CheckValidPosition(pos)) return false;
+
+		unitGO.transform.parent = transform;
+
+		Unit unit = unitGO.GetComponent<Unit>();
 		unit.gridPos = pos;
 
 		if (unit.isEnemy)
 			enemyUnitCache.Add(unit);
 
-		if (CheckValidPosition(pos)) return false;
-
 		unitPositions.Add(pos, unit);
 		return true;
 	}
+
 	public void RemoveUnit(Unit unit)
 	{
 		var pos = unit.gridPos;

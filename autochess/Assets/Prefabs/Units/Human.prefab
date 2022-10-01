@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5381476803081076619}
-  - component: {fileID: 779270708979060153}
+  - component: {fileID: 4340288784095613553}
   m_Layer: 6
   m_Name: Abilities
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 5946530589819610557}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &779270708979060153
+--- !u!114 &4340288784095613553
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2114666898417717537}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c40dd58136cd244e819d8e991557982, type: 3}
+  m_Script: {fileID: 11500000, guid: 6076d520dd505604fa25c92a6705a26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   name: Punch
@@ -50,7 +50,7 @@ MonoBehaviour:
   rangeType: 0
   angle: 0
   power: 5
-  cooldown: 5
+  cooldown: 0
   currentCooldown: 0
   includeUser: 0
   friendlyFire: 0
@@ -424,7 +424,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -6229621072084196746}
         m_TargetAssemblyTypeName: Unit, Assembly-CSharp
-        m_MethodName: DestroySelf
+        m_MethodName: OnDeath
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

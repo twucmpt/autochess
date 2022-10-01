@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5381476803081076619}
-  - component: {fileID: 779270708979060153}
+  - component: {fileID: 1454791672905574101}
   m_Layer: 6
   m_Name: Abilities
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 5946530589819610557}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &779270708979060153
+--- !u!114 &1454791672905574101
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2114666898417717537}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c40dd58136cd244e819d8e991557982, type: 3}
+  m_Script: {fileID: 11500000, guid: 6076d520dd505604fa25c92a6705a26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   name: Punch
@@ -50,7 +50,7 @@ MonoBehaviour:
   rangeType: 0
   angle: 0
   power: 5
-  cooldown: 5
+  cooldown: 0
   currentCooldown: 0
   includeUser: 0
   friendlyFire: 0
@@ -381,6 +381,7 @@ GameObject:
   - component: {fileID: 5946530589819610557}
   - component: {fileID: -6229621072084196746}
   - component: {fileID: 5955302400733746537}
+  - component: {fileID: 6080650397175766053}
   m_Layer: 6
   m_Name: Unit
   m_TagString: Player
@@ -417,14 +418,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e05f6f65e6783734496a75a52d168997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 10
+  currentHealth: 10
   OnZeroHealth:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: -6229621072084196746}
         m_TargetAssemblyTypeName: Unit, Assembly-CSharp
-        m_MethodName: DestroySelf
+        m_MethodName: OnDeath
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -436,7 +437,6 @@ MonoBehaviour:
         m_CallState: 2
   power: 10
   facingRight: 1
-  isEnemy: 0
   speed: 1
   gridPos: {x: 0, y: 0}
   myType: 0
@@ -456,6 +456,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &6080650397175766053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5946530589819610558}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64da7e593546cc44a8c4db46fb972756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7253695971649331502
 GameObject:
   m_ObjectHideFlags: 0
