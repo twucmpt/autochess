@@ -23,6 +23,7 @@ public class GameManager : Singleton<GameManager>
 	public List<Unit> enemyUnitCache = new();
     public Dictionary<unitTypes, UnitType> unitTypeEnumToClass = new();
 
+	public int currency = 0;
 	
 
     protected override void Awake() 

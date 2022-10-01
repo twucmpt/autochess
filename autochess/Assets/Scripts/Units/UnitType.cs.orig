@@ -18,8 +18,12 @@ public class UnitType
 	public string name;
 	public unitTypes type;
 	public UnitBaseStats stats;
+<<<<<<< HEAD
 	public List<Ability> abilities = new();
+=======
+	public Ability ability;
 	public int cost = 1;
+>>>>>>> 8d03777 (Add shop)
 
 	public UnitType()
 	{
@@ -29,7 +33,10 @@ public class UnitType
 	/// <summary>
 	/// Initialization Method that can be called outside of Unity Start and Awake methods
 	/// </summary>
-	public virtual void Init() { }
+	public virtual void Init()
+	{
+
+	}
 
 	/// <summary>
 	/// A method that handles the basic attack function of a unit type
