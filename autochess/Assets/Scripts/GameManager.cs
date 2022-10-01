@@ -18,6 +18,7 @@ public class GameManager : Singleton<GameManager>
 	public GamePhase currentPhase = GamePhase.Combat;
 
 	public List<UnitListHelper> unitListHelpers = new();
+	public List<EnemyListHelper> enemyListHelpers = new();
 
 	public Dictionary<Vector2Int, Unit> unitPositions = new();
 	public List<Unit> enemyUnitCache = new();
@@ -26,6 +27,8 @@ public class GameManager : Singleton<GameManager>
 	public GameObject startRoundButton;
 	public bool CanRedeployFromGrid = false;
 	public bool CanRedeployFromBench = false;
+
+	private Dictionary<float, List<GameObject>> cachedEnemySelectionWeight = new();
 
 
 	public int currency = 0;
@@ -56,7 +59,7 @@ public class GameManager : Singleton<GameManager>
 	{
 		GameObject zombie = unitListHelpers.Where(x => x.type == unitTypes.MeleeZombie).FirstOrDefault().unitPrefab;
 		GameObject wizard = unitListHelpers.Where(x => x.type == unitTypes.BowSkeleton).FirstOrDefault().unitPrefab;
-		GameObject human = unitListHelpers.Where(x => x.type == unitTypes.HumanPeasent).FirstOrDefault().unitPrefab;
+		GameObject human = GetEnemyUnit(0);
 
 		//AddUnitFromPrefab(new Vector2Int(0, 0), zombie);
 		//AddUnitFromPrefab(new Vector2Int(0, 2), wizard);
@@ -101,6 +104,7 @@ public class GameManager : Singleton<GameManager>
 		}
 	}
 
+	#region GameLoop Event Methods
 	public void SwitchPhase() {
 		switch(currentPhase) {
 			case GamePhase.Combat:
@@ -110,6 +114,7 @@ public class GameManager : Singleton<GameManager>
 				OnRedeploymentPhaseEnds();
 				return;
 		}
+
 	}
 
 	public void EnableRedeployment() {
@@ -253,7 +258,9 @@ public class GameManager : Singleton<GameManager>
 		pausedGameIndicator.SetActive(true);
 		EnableRedeployment();
 	}
+	#endregion
 
+	#region Add/Remove Units
 	/// <summary>
 	/// Adds a Unit to the unit dictionary if the position is available
 	/// </summary>
@@ -310,6 +317,62 @@ public class GameManager : Singleton<GameManager>
 
 		return new MeleeZombie();
 	}
+	#endregion
+
+
+	private float spawnCD = 0;
+	private float maxspawnCD = 10;
+
+	/// <summary>
+	/// A method that handles spawning new enemies on the board at particular times
+	/// </summary>
+	public void HandleIncomingEnemies(float difficulty)
+	{
+		int unitsToSpawn;
+		
+		if (currentPhase == GamePhase.Combat)
+			spawnCD -= Time.deltaTime;
+
+		if (spawnCD < 0)
+		{
+			maxspawnCD = UnityEngine.Random.Range(1, maxspawnCD);
+			unitsToSpawn = (int)Math.Max(
+				1,
+				UnityEngine.Random.Range(0, Mathf.Ceil(difficulty / 3))
+			);
+			for (int i = 0; i < unitsToSpawn; i++)
+			{
+				int newY = UnityEngine.Random.Range(0, gridHeight);
+				AddUnitFromPrefab(new Vector2Int(gridWidth-1, newY), GetEnemyUnit(difficulty));
+			}
+		}
+	}
+
+	/// <summary>
+	/// Returns an enemy Gameobject prefab that depends on the difficulty passed
+	/// </summary>
+	/// <param name="difficulty"></param>
+	/// <returns></returns>
+	public GameObject GetEnemyUnit(float difficulty)
+	{
+		List<EnemyListHelper> newEnemy = enemyListHelpers.Where(x => x.difficulty <= difficulty).ToList();
+		
+		if (!cachedEnemySelectionWeight.ContainsKey(difficulty))
+		{
+			List<GameObject> enemySelectionList = new();
+			foreach (var enemy in newEnemy)
+			{
+				for (int i = 0; i < enemy.weight; i++)
+				{
+					enemySelectionList.Add(enemy.unitPrefab);
+				}
+			}
+			cachedEnemySelectionWeight.Add(difficulty, enemySelectionList);
+		}
+
+		return cachedEnemySelectionWeight[difficulty][UnityEngine.Random.Range(0, cachedEnemySelectionWeight[difficulty].Count-1)];
+	}
+
 	public bool CheckValidPosition(Vector2Int pos)
 	{
 		if (pos.x < 0 || pos.x >= gridWidth)
@@ -331,3 +394,11 @@ public class UnitListHelper
 	public unitTypes type;
 	public GameObject unitPrefab;
 }
+
+[System.Serializable]
+public class EnemyListHelper : UnitListHelper
+{
+	public float difficulty;
+	public int weight;
+}
+
