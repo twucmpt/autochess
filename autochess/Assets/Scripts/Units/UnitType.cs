@@ -28,10 +28,7 @@ public class UnitType
 	/// <summary>
 	/// Initialization Method that can be called outside of Unity Start and Awake methods
 	/// </summary>
-	public virtual void Init()
-	{
-
-	}
+	public virtual void Init() { }
 
 	/// <summary>
 	/// A method that handles the basic attack function of a unit type

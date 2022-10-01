@@ -15,7 +15,7 @@ public class GameManager : Singleton<GameManager>
 {
     public int gridWidth;
     public int gridHeight;
-	public GamePhase currentPhase = GamePhase.Planning;
+	public GamePhase currentPhase = GamePhase.Combat;
 
 	public List<UnitListHelper> unitListHelpers = new();
 
@@ -79,7 +79,7 @@ public class GameManager : Singleton<GameManager>
 		else if (currentPhase == GamePhase.Redeployment)
 			return;
 		if (totalTimeInCombat > maxTimeInCombat)
-			OnEndRoundTimeout();
+			OnRoundEndTimeout();
 
 		if (CheckRoundState())
 			OnRoundEnd();
@@ -87,7 +87,7 @@ public class GameManager : Singleton<GameManager>
 		if (time >= 10)
 		{
 			time -= 10;
-			ActivateRedeployment();
+			OnStartRedeployment();
 		}
 	}
 
@@ -95,19 +95,16 @@ public class GameManager : Singleton<GameManager>
 	/// A method that is called when the tactical phase ends
 	/// </summary>
 	/// <exception cref="NotImplementedException"></exception>
-	public void OnEndTacticalPhase()
+	public void OnPlanningPhaseEnd()
 	{
+		currentPhase = GamePhase.Combat;
 		throw new NotImplementedException();
+		// TODO: Things that need to happen in the combat phase that are triggered on this method call
+		//	1. Dynamic Enemy Generation on a round to round basis (enemies may be continually responding)
+		//	2. Players Units Activate to fight oncoming enemies
+		//	3. Lockout placing/moving Units
 	}
 
-	/// <summary>
-	/// A method that is called when the tactical phase ends
-	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
-	public void OnRedeploymentPhaseEnds()
-	{
-		throw new NotImplementedException();
-	}
 
 	/// <summary>
 	/// Checks if round is over
@@ -115,38 +112,50 @@ public class GameManager : Singleton<GameManager>
 	/// <returns>true = round is done, false = round is NOT done</returns>
 	public bool CheckRoundState()
 	{
-
 		if (enemyUnitCache.Count > 0)
 			return false;
 
 		return true;
 	}
 
-	
+	/// <summary>
+	/// A method that is called when the Redeployment phase ends, and the Combat Phase resumes
+	/// </summary>
+	/// <exception cref="NotImplementedException"></exception>
+	public void OnRedeploymentPhaseEnds()
+	{
+		currentPhase = GamePhase.Combat;
+		throw new NotImplementedException();
+
+		//TODO: Things that need to happen upon resuming combat
+	}
 
 	/// <summary>
 	/// A method to handle the situation when the round was ended due to the round taking too long. 
 	/// </summary>
 	/// <exception cref="NotImplementedException"></exception>
-	public void OnEndRoundTimeout()
+	public void OnRoundEndTimeout()
 	{
+		currentPhase = GamePhase.Planning;
 		throw new NotImplementedException();
 	}
 
 	/// <summary>
-	/// A method to handle the end of a round.
+	/// A method to handle the end of a round due to all enemies being killed.
 	/// </summary>
 	/// <exception cref="NotImplementedException"></exception>
 	public void OnRoundEnd()
 	{
+		currentPhase = GamePhase.Planning;
 		throw new NotImplementedException();
 	}
 
 	/// <summary>
 	/// This is the method that is called every 10 seconds to trigger the redeployment phase
 	/// </summary>
-	public void ActivateRedeployment()
+	public void OnStartRedeployment()
 	{
+		currentPhase = GamePhase.Redeployment;
 		throw new NotImplementedException();
 	}
 
@@ -180,6 +189,8 @@ public class GameManager : Singleton<GameManager>
 	{
 		var pos = unit.gridPos;
 		unitPositions.Remove(unit.gridPos);
+		if (unit.isEnemy)
+			enemyUnitCache.Remove(unit);
 	}
 
 	public UnitType GetUnitType(unitTypes type)

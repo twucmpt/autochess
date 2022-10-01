@@ -48,6 +48,8 @@ public class Unit : Entity
 
 
 	void Update() {
+		if (isEnemy && gameManager.currentPhase == GamePhase.Planning)
+			DestroySelf();
 
 		UpdateFacingDirection();
 		UpdatePosition();
