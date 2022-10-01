@@ -52,8 +52,16 @@ MonoBehaviour:
     unitPrefab: {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
   - type: 1
     unitPrefab: {fileID: 7444813653333059714, guid: 7614474e02db8b74aa6808628cd1df57, type: 3}
-  - type: 2
+  enemyListHelpers:
+  - type: 0
     unitPrefab: {fileID: 5946530589819610558, guid: c5bf63b3946ff3c41838c667f3193a8d, type: 3}
+    difficulty: 0
+    weight: 1
   enemyUnitCache: []
+  pausedGameIndicator: {fileID: 0}
+  startRoundButton: {fileID: 0}
+  CanRedeployFromGrid: 0
+  CanRedeployFromBench: 0
   currency: 10
   time: 0
+  currentDifficulty: 0

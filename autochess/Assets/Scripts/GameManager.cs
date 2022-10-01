@@ -31,6 +31,7 @@ public class GameManager : Singleton<GameManager>
 
 	private Dictionary<float, List<GameObject>> cachedEnemySelectionWeight = new();
 
+	private Dictionary<Vector2Int, Stack<GameObject>> enemySpawnStacks = new();
 
 	public int currency = 0;
 	
@@ -52,10 +53,15 @@ public class GameManager : Singleton<GameManager>
 		unitTypeEnumToClass.Add(unitTypes.BowSkeleton, new BowSkeleton());
 		unitTypeEnumToClass.Add(unitTypes.HumanPeasent, new HumanPeasent());
 
+		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 0), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 1), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 2), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 3), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 4), new Stack<GameObject>());
+		enemySpawnStacks.Add(new Vector2Int(gridWidth - 1, 5), new Stack<GameObject>());
+
 		InitTest();
-
 	}
-
 	private void InitTest()
 	{
 		GameObject zombie = unitListHelpers.Where(x => x.type == unitTypes.MeleeZombie).FirstOrDefault().unitPrefab;
@@ -80,6 +86,7 @@ public class GameManager : Singleton<GameManager>
 	/// Time in Seconds
 	/// </summary>
 	private float maxTimeInCombat = 500;
+	public float currentDifficulty = 0;
 
 	public void Update()
 	{
@@ -87,6 +94,7 @@ public class GameManager : Singleton<GameManager>
 		{
 			time += Time.deltaTime;
 			totalTimeInCombat += Time.deltaTime;
+			HandleIncomingEnemies(currentDifficulty);
 		}
 		else if (currentPhase == GamePhase.Planning)
 			totalTimeInCombat = 0;
@@ -103,6 +111,7 @@ public class GameManager : Singleton<GameManager>
 			time -= 10;
 			SwitchPhase();
 		}
+
 	}
 
 	#region GameLoop Event Methods
@@ -322,32 +331,55 @@ public class GameManager : Singleton<GameManager>
 
 
 	private float spawnCD = 0;
-	private float maxspawnCD = 10;
+	private float maxspawnCD = 5;
 
 	/// <summary>
 	/// A method that handles spawning new enemies on the board at particular times
 	/// </summary>
 	public void HandleIncomingEnemies(float difficulty)
 	{
-		int unitsToSpawn;
-		
 		if (currentPhase == GamePhase.Combat)
 			spawnCD -= Time.deltaTime;
 
 		if (spawnCD < 0)
 		{
-			maxspawnCD = UnityEngine.Random.Range(1, maxspawnCD);
-			unitsToSpawn = (int)Math.Max(
-				1,
-				UnityEngine.Random.Range(0, Mathf.Ceil(difficulty / 3))
-			);
-			for (int i = 0; i < unitsToSpawn; i++)
-			{
-				int newY = UnityEngine.Random.Range(0, gridHeight);
-				AddUnitFromPrefab(new Vector2Int(gridWidth-1, newY), GetEnemyUnit(difficulty));
-			}
+			spawnCD = maxspawnCD;
+			GenerateEnemies(difficulty);
+		}
+
+		SpawnEnemies();
+	}
+
+	public void SpawnEnemies()
+	{
+		foreach (var loc in enemySpawnStacks)
+		{
+			if (loc.Value.Count <= 0)
+				continue;
+
+			if (!CheckValidSpawn(loc.Key))
+				continue;
+
+			AddUnitFromPrefab(loc.Key, loc.Value.Pop());
 		}
 	}
+
+	public void GenerateEnemies(float difficulty)
+	{
+		int unitsToSpawn = (int)Math.Min(Math.Max(
+				1,
+				UnityEngine.Random.Range(0, Mathf.Ceil(difficulty / 3))
+			), gridHeight - 1);
+
+		List<Vector2Int> spawnLocations = Utility.TakeMultiple<Vector2Int>(enemySpawnStacks.Keys.ToList(), unitsToSpawn);
+
+		foreach (var loc in spawnLocations)
+		{
+			Stack<GameObject> spawnStack = enemySpawnStacks[loc];
+			spawnStack.Push(GetEnemyUnit(difficulty));
+		}
+	}
+
 
 	/// <summary>
 	/// Returns an enemy Gameobject prefab that depends on the difficulty passed
@@ -383,6 +415,18 @@ public class GameManager : Singleton<GameManager>
 			return false;
 
 		return true;
+	}
+
+	/// <summary>
+	/// Used when determing if an enemy should be spawned onto the board
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <returns></returns>
+	public bool CheckValidSpawn(Vector2Int pos)
+	{
+		bool validSpawn = true;
+		validSpawn = CheckValidPosition(pos);
+		return validSpawn;
 	}
 
 }
