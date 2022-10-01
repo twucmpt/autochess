@@ -27,7 +27,7 @@ public class Ability : MonoBehaviour
 		user = GetComponentInParent<Unit>();
 	}
 
-	public List<Entity> TargetsInRange(string targetTag) {
+	public virtual List<Entity> TargetsInRange(string targetTag) {
         var targets = new List<Entity>();
         switch (rangeType) {
             case AttackRangeType.Linear:

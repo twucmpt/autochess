@@ -59,7 +59,7 @@
             GameManager.Instance.RemoveUnit(unit);
             return;
         }
-        if (GameManager.Instance.CheckValidPosition(currentPosRounded) && unit.MoveUnit(currentPosRounded)) transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
+        if (GameManager.Instance.CheckValidPosition(currentPosRounded, tag) && unit.MoveUnit(currentPosRounded)) transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
         else transform.position = originalPos;
     }
     

@@ -84,7 +84,7 @@ public class Unit : Entity
 	/// </summary>
 	public bool MoveUnit(Vector2Int newPos)
 	{
-		if (!gameManager.CheckValidPosition(newPos))
+		if (!gameManager.CheckValidPosition(newPos, tag))
 			return false;
 
 		//Update Unit Positions

@@ -27,6 +27,7 @@ public class GameManager : Singleton<GameManager>
 	public GameObject startRoundButton;
 	public bool CanRedeployFromGrid = false;
 	public bool CanRedeployFromBench = false;
+	public Entity warlock;
 
 	private Dictionary<float, List<GameObject>> cachedEnemySelectionWeight = new();
 
@@ -273,14 +274,14 @@ public class GameManager : Singleton<GameManager>
 	/// </summary>
 	public bool AddUnitFromPrefab( Vector2Int pos, GameObject unitPrefab)
 	{
-		if (!CheckValidPosition(pos)) return false;
+		if (!CheckValidPosition(pos, unitPrefab.tag)) return false;
 
 		GameObject newUnitGO = Instantiate(unitPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
 		return AddUnit(pos, newUnitGO);
 	}
 
 	public bool AddUnit(Vector2Int pos, GameObject unitGO) {
-		if (!CheckValidPosition(pos)) return false;
+		if (!CheckValidPosition(pos, unitGO.tag)) return false;
 
 		unitGO.transform.parent = transform;
 
@@ -373,12 +374,10 @@ public class GameManager : Singleton<GameManager>
 		return cachedEnemySelectionWeight[difficulty][UnityEngine.Random.Range(0, cachedEnemySelectionWeight[difficulty].Count-1)];
 	}
 
-	public bool CheckValidPosition(Vector2Int pos)
+	public bool CheckValidPosition(Vector2Int pos, string tag)
 	{
-		if (pos.x < 0 || pos.x >= gridWidth)
-			return false;
-		if (pos.y < 0 || pos.y >= gridHeight)
-			return false;
+		if (tag == "Player" && (pos.x < -1 || pos.x >= gridWidth || pos.y < 0 || pos.y >= gridHeight)) return false;
+		if (tag == "Enemy" && (pos.x < 0 || pos.x >= gridWidth+1 || pos.y < 0 || pos.y >= gridHeight)) return false;
 
 		if (unitPositions.ContainsKey(pos))
 			return false;

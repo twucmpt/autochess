@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5381476803081076619}
   - component: {fileID: 4340288784095613553}
+  - component: {fileID: 5286505625392883923}
   m_Layer: 6
   m_Name: Abilities
   m_TagString: Untagged
@@ -54,6 +55,31 @@ MonoBehaviour:
   currentCooldown: 0
   includeUser: 0
   friendlyFire: 0
+--- !u!114 &5286505625392883923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114666898417717537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 990897670e863794d88249ce469c339f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Attack The Warlock
+  animation: {fileID: 7400000, guid: 3f5d755826476944d9cbc7e0feb2ee33, type: 2}
+  range: 2
+  rangeType: 1
+  angle: 90
+  power: 1
+  cooldown: 2
+  currentCooldown: 0
+  includeUser: 0
+  friendlyFire: 0
+  projectilePrefab: {fileID: 5266561708417888548, guid: 474cd9e31947a0945a6512299dde74c6, type: 3}
+  speed: 1
+  warlock: {fileID: 0}
 --- !u!1 &2234890088761364745
 GameObject:
   m_ObjectHideFlags: 0
