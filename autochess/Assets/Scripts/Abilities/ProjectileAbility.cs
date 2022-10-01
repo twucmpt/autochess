@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ProjectileAbility : Ability {
+public class ProjectileAttack : Ability {
     public GameObject projectilePrefab;
     public float speed = 1;
 

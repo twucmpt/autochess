@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackRangeType
+{
+	Linear,
+	Cone,
+}
+
 public class Ability : MonoBehaviour
 {
     new public string name;
@@ -51,37 +57,10 @@ public class Ability : MonoBehaviour
     public virtual void Activate(Entity target) {
         currentCooldown = cooldown;
     }
-    public virtual void AnimationImpactCallback(Entity target) {
-        List<Entity> unitsHit = new List<Entity>();
-        switch (rangeType) {
-            case AttackRangeType.Linear:
-                unitsHit = TargetsInRange(null);
-                break;
-            case AttackRangeType.Cone:
-                // Check they are still in range
-                float targetAngle = Vector3.Angle(user.facingRight? user.transform.right : -user.transform.right, (target.transform.root.position - user.transform.position));
-                if (targetAngle > angle || Vector3.Distance(user.transform.position, target.transform.position) > range) break;
-
-                // Hit all units in a line
-                var linearHits = Physics2D.RaycastAll(user.transform.position, target.transform.position - user.transform.position, range, LayerMask.GetMask("Entities"));
-                foreach (var hit in linearHits) {
-                    unitsHit.Add(hit.collider.transform.root.GetComponent<Entity>());
-                }
-                break;
-        }
-        foreach (Entity unit in unitsHit) {
-            if (unit == user && !includeUser) continue;
-            if (!friendlyFire && unit.CompareTag(user.tag)) continue;
-            unit.TakeDamage(power);
-        }
-    }
+    public virtual void AnimationImpactCallback(Entity target) {}
 
     public void ReduceCooldown(float seconds) {
         currentCooldown -= seconds;
         currentCooldown = Mathf.Max(currentCooldown, 0);
     }
-}
-
-public enum AttackRangeType {
-    Linear, Cone
 }

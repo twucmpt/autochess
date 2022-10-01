@@ -7,6 +7,7 @@ public enum unitTypes
 {
 	MeleeZombie,
 	BowSkeleton,
+	HumanPeasent,
 }
 
 /// <summary>
@@ -17,7 +18,7 @@ public class UnitType
 	public string name;
 	public unitTypes type;
 	public UnitBaseStats stats;
-	public Ability ability;
+	public List<Ability> abilities = new();
 
 	public UnitType()
 	{
@@ -27,7 +28,7 @@ public class UnitType
 	/// <summary>
 	/// Initialization Method that can be called outside of Unity Start and Awake methods
 	/// </summary>
-	public virtual void Init() { }
+	public virtual void Init(){ }
 
 	/// <summary>
 	/// A method that handles the basic attack function of a unit type
@@ -38,7 +39,7 @@ public class UnitType
 	/// A method that activates this units unique ability if it has one
 	/// </summary>
 	/// <param name="target"></param>
-	public void ActivateAbility(Entity target) 
+	public void ActivateAbility(Ability ability, Entity target) 
 	{
 		if (ability == null)
 			return;
@@ -52,13 +53,12 @@ public class UnitType
 	/// <param name="timePassed"></param>
 	public void UpdateAbilityCooldown(float timePassed)
 	{
-		if (ability == null)
-			return;
-
-		ability.ReduceCooldown(timePassed);
+		foreach (var ability in abilities)
+		{
+			ability.ReduceCooldown(timePassed);
+		}
+		
 	}
-
-
 }
 
 public class MeleeZombie : UnitType
@@ -66,6 +66,8 @@ public class MeleeZombie : UnitType
 	public override void Init()
 	{
 		base.Init();
+		type = unitTypes.MeleeZombie;
+		abilities.Add(new PunchAttack());
 	}
 }
 
@@ -74,6 +76,17 @@ public class BowSkeleton : UnitType
 	public override void Init()
 	{
 		base.Init();
-		ability = new ProjectileAbility();
+		abilities.Add( new ProjectileAttack());
+		type = unitTypes.BowSkeleton;
+	}
+}
+
+public class HumanPeasent : UnitType
+{
+	public override void Init()
+	{
+		base.Init();
+		type = unitTypes.HumanPeasent;
+		abilities.Add(new PunchAttack());
 	}
 }

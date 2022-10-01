@@ -35,14 +35,10 @@ public class Unit : Entity
 	{
 		gameManager = GameManager.Instance;
 
-		var added = GameManager.Instance.AddUnit(this, Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
-		if (!added) Destroy(gameObject);
-
 		animator = GetComponentInChildren<Animator>();
 		animController = new AnimatorOverrideController(animator.runtimeAnimatorController);
 		animator.runtimeAnimatorController = animController;
-		type = gameManager.GetUnitType(myType);
-			
+		type = gameManager.GetUnitType(myType);	
 	}
 	
 
@@ -124,11 +120,7 @@ public class Unit : Entity
 		{
 			bool atLeastOneAbilityInRange = false;
 
-
-			//Temporary Needs to be removed
-			List<Ability> abilities = new() { type.ability };
-
-			foreach (Ability ability in abilities)
+			foreach (Ability ability in type.abilities)
 			{
 				if (ability == null)
 					continue;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
     [HideInInspector] public Vector3 direction;
-    [HideInInspector] public ProjectileAbility ability;
+    [HideInInspector] public ProjectileAttack ability;
 
     Rigidbody2D rb;
     void Start() {rb = GetComponent<Rigidbody2D>();}
