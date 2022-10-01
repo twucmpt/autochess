@@ -18,7 +18,7 @@ public class Unit : Entity
     public float speed = 1;
     public Vector2Int gridPos;
 
-    Animator animator;
+    public Animator animator;
     AnimatorOverrideController animController;
     Ability currentAbility = null;
     Entity currentTarget = null;
@@ -49,7 +49,6 @@ public class Unit : Entity
 
 	void Update() {
 		UpdateFacingDirection();
-		UpdatePosition();
 		type.UpdateAbilityCooldown(Time.deltaTime*speed);
 		DetermineAction();
 	}
@@ -70,17 +69,6 @@ public class Unit : Entity
 			flipScale.x *= -1;
 			transform.localScale = flipScale;
 		}
-	}
-
-	/// <summary>
-	/// Updates the position and handles the movement of this unit
-	/// </summary>
-	private void UpdatePosition()
-	{
-		var gridToWorldPos = new Vector3(gridPos.x, gridPos.y);
-		animator.SetBool("Walking", gridToWorldPos != transform.position);
-		if (animator.GetCurrentAnimatorStateInfo(0).IsName("walk")) transform.position = Vector3.MoveTowards(transform.position, gridToWorldPos, Time.deltaTime);
-
 	}
 
 	public void Advance() {

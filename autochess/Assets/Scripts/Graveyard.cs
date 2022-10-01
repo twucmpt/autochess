@@ -16,10 +16,12 @@ public class Graveyard : Singleton<Graveyard>
         var unitComp = unit.GetComponent<Unit>();
         unitComp.currentHealth = unitComp.maxHealth;
         unitComp.enabled = false;
+        unit.GetComponent<UnitMoveToGrid>().enabled = false;
         return true;
     }
 
     public void RemoveUnit(GameObject unit) {
+        unit.GetComponent<UnitMoveToGrid>().enabled = true;
         units.Remove(unit);
         for (int i = 0; i < units.Count; i++) {
             units[i].transform.localPosition = new Vector3(0, i, 0);

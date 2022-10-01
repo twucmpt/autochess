@@ -14,6 +14,7 @@ public class Bench : Singleton<Bench>
                 units[i] = unit;
                 unit.transform.SetParent(transform);
                 unit.transform.localPosition = new Vector3(0, i, 0);
+                unit.GetComponent<UnitMoveToGrid>().enabled = false;
                 if (GameManager.Instance.currentPhase == GamePhase.Planning) unit.GetComponent<Draggable>().enabled = true;
                 return true;
             }
@@ -22,6 +23,7 @@ public class Bench : Singleton<Bench>
     }
 
     public void RemoveUnit(GameObject unit) {
+        unit.GetComponent<UnitMoveToGrid>().enabled = true;
         for (int i = 0; i < units.Length; i++) {
             if (units[i] == unit) {
                 print("Removing unit from bench");
