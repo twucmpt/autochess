@@ -133,7 +133,7 @@ public class GameManager : Singleton<GameManager>
 	}
 	public void DisableRedeployment() {
 		foreach(var unit in Graveyard.Instance.units) {
-			unit.GetComponent<Draggable>().enabled = true;
+			unit.GetComponent<Draggable>().enabled = false;
 		}
 		foreach(var unit in unitPositions.Values) {
 			unit.GetComponent<Unit>().enabled = true;
