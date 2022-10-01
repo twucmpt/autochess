@@ -149,13 +149,16 @@ public class GameManager : Singleton<GameManager>
 		while (Graveyard.Instance.units.Count > 0) {
 			var unit = Graveyard.Instance.units[0];
 			Graveyard.Instance.units.RemoveAt(0);
-			AddUnit(unit.GetComponent<Unit>().originalPosition, unit);
+			var ogPos = unit.GetComponent<Unit>().originalPosition;
+			AddUnit(ogPos, unit);
+			unit.transform.position = new Vector3(ogPos.x, ogPos.y, 0);
 		}
 		var units = unitPositions.Values.ToList<Unit>();
 		foreach (var unit in units) {
 			if (!unit.CompareTag("Player")) continue;
 			RemoveUnit(unit);
 			AddUnit(unit.originalPosition, unit.gameObject);
+			unit.transform.position = new Vector3(unit.originalPosition.x, unit.originalPosition.y, 0);
 		}
 	}
 
