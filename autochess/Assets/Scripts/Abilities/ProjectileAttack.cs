@@ -12,7 +12,7 @@ public class ProjectileAttack : Ability {
     }
 
     public void OnProjectileHit(Projectile projectile, Collider2D collider) {
-        Entity unit = collider.transform.root.GetComponent<Entity>();
+        Entity unit = collider.transform.GetComponent<Entity>();
         if (unit == user) return;
         if (!friendlyFire && unit.CompareTag(user.tag)) return;
 

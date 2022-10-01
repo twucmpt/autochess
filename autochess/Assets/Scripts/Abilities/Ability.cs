@@ -42,12 +42,13 @@ public class Ability : MonoBehaviour
             case AttackRangeType.Cone:
                 var circleHits = Physics2D.OverlapCircleAll(user.transform.position, range, LayerMask.GetMask("Entities"));
                 foreach(var collider in circleHits) {
-                    if (targetTag is not null && !collider.transform.root.CompareTag(targetTag)) continue;
-                    if ((user.facingRight && collider.transform.root.position.x < user.transform.position.x) || (!user.facingRight && collider.transform.root.position.x > user.transform.position.x)) continue;
-                    float targetAngle = Vector3.Angle(user.facingRight? user.transform.right : -user.transform.right, (collider.transform.root.position - user.transform.position));
+                    if (targetTag is not null && !collider.transform.CompareTag(targetTag)) 
+						continue;
+                    if ((user.facingRight && collider.transform.position.x < user.transform.position.x) || (!user.facingRight && collider.transform.position.x > user.transform.position.x)) continue;
+                    float targetAngle = Vector3.Angle(user.facingRight? user.transform.right : -user.transform.right, (collider.transform.position - user.transform.position));
                     if (targetAngle > angle) continue;
 
-                    Entity unit = collider.transform.root.GetComponent<Entity>();
+                    Entity unit = collider.transform.GetComponent<Entity>();
                     if (includeUser || unit != user) targets.Add(unit);
                 }
                 return targets;
