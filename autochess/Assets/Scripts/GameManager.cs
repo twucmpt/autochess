@@ -30,8 +30,7 @@ public class GameManager : Singleton<GameManager>
 	public Entity warlock;
 
 	public int enemiesRemaining = 2;
-	private float spawnCD = 0;
-	private float maxspawnCD = 5;
+	public float spawnInterval = 5;
 	public int maxPlacedUnits = 1;
 	public int currentNumberOfPlacedUnits {get{
 		int count = Graveyard.Instance.units.Count;
@@ -43,7 +42,7 @@ public class GameManager : Singleton<GameManager>
 
 	private Dictionary<float, List<GameObject>> cachedEnemySelectionWeight = new();
 
-	private Dictionary<Vector2Int, Stack<GameObject>> enemySpawnStacks = new();
+	public List<EnemySpawn>[] enemySpawnQueues;
 
 	public int currency = 0;
 	public int currencyPerRound = 10;
@@ -67,13 +66,6 @@ public class GameManager : Singleton<GameManager>
 		unitTypeEnumToClass.Add(unitTypes.BowSkeleton, new BowSkeleton());
 		unitTypeEnumToClass.Add(unitTypes.HumanPeasent, new HumanPeasent());
 
-		enemySpawnStacks.Add(new Vector2Int(gridWidth, 0), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth, 1), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth, 2), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth, 3), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth, 4), new Stack<GameObject>());
-		enemySpawnStacks.Add(new Vector2Int(gridWidth, 5), new Stack<GameObject>());
-
 	}
 
 
@@ -84,7 +76,7 @@ public class GameManager : Singleton<GameManager>
 	/// <summary>
 	/// Time in Seconds
 	/// </summary>
-	private float totalTimeInCombat = 0;
+	public float totalTimeInCombat = 0;
 	/// <summary>
 	/// Time in Seconds
 	/// </summary>
@@ -97,7 +89,7 @@ public class GameManager : Singleton<GameManager>
 		{
 			time += Time.deltaTime;
 			totalTimeInCombat += Time.deltaTime;
-			HandleIncomingEnemies(currentDifficulty);
+			HandleIncomingEnemies();
 		}
 		else if (currentPhase == GamePhase.Planning)
 			totalTimeInCombat = 0;
@@ -194,6 +186,9 @@ public class GameManager : Singleton<GameManager>
 		startRoundButton.SetActive(true);
 		RestoreUnitsToOriginalPlacement();
 		EnableRedeployment();
+
+		enemiesRemaining = 10;
+		GenerateEnemies(currentDifficulty);
 	}
 
 	/// <summary>
@@ -208,7 +203,6 @@ public class GameManager : Singleton<GameManager>
 		startRoundButton.SetActive(false);
 		DisableRedeployment();
 		RecordOriginalPositions();
-		enemiesRemaining = 10;
 	}
 
 
@@ -331,48 +325,53 @@ public class GameManager : Singleton<GameManager>
 	/// <summary>
 	/// A method that handles spawning new enemies on the board at particular times
 	/// </summary>
-	public void HandleIncomingEnemies(float difficulty)
+	public void HandleIncomingEnemies()
 	{
-		if (currentPhase == GamePhase.Combat)
-			spawnCD -= Time.deltaTime;
-
-		if (spawnCD < 0)
-		{
-			spawnCD = maxspawnCD;
-			GenerateEnemies(difficulty);
-		}
-
 		SpawnEnemies();
 	}
 
 	public void SpawnEnemies()
 	{
-		foreach (var loc in enemySpawnStacks)
+		for (int i = 0; i < enemySpawnQueues.Length; i++)
 		{
-			if (loc.Value.Count <= 0)
+			if (enemySpawnQueues[i].Count <= 0)
+				continue;
+			
+			if (enemySpawnQueues[i][0].time > totalTimeInCombat)
+				continue;
+			
+			var pos = new Vector2Int(gridWidth, i);
+			if (!CheckValidSpawn(pos))
 				continue;
 
-			if (!CheckValidSpawn(loc.Key))
-				continue;
-
-			AddUnitFromPrefab(loc.Key, loc.Value.Pop(), true);
+			AddUnitFromPrefab(pos, enemySpawnQueues[i][0].enemy, true);
+			enemySpawnQueues[i].RemoveAt(0);
 		}
 	}
 
 	public void GenerateEnemies(float difficulty)
 	{
-		int unitsToSpawn = (int)Math.Min(enemiesRemaining, Math.Min(Math.Max(
-				1,
-				UnityEngine.Random.Range(0, Mathf.Ceil(difficulty / 3))
-			), gridHeight - 1));
+		enemySpawnQueues = new List<EnemySpawn>[gridHeight];
+		for (int i = 0; i < enemySpawnQueues.Length; i++) enemySpawnQueues[i] = new();
 
-		List<Vector2Int> spawnLocations = Utility.TakeMultiple<Vector2Int>(enemySpawnStacks.Keys.ToList(), unitsToSpawn);
-
-		foreach (var loc in spawnLocations)
-		{
-			Stack<GameObject> spawnStack = enemySpawnStacks[loc];
-			spawnStack.Push(GetEnemyUnit(difficulty));
-			enemiesRemaining = Math.Max(0,enemiesRemaining-1);
+		int wave = 0;
+		int enemiesInWave = 0;
+		int enemiesPerSpawnWave = UnityEngine.Random.Range(1,4);
+		print("Wave " + wave);
+		print("Enemies in wave: " + enemiesPerSpawnWave);
+		for (int i = 0; i < enemiesRemaining; i++) {
+			if (enemiesInWave >= enemiesPerSpawnWave) {
+				wave++;
+				enemiesInWave = 0;
+				enemiesPerSpawnWave = UnityEngine.Random.Range(1,4);
+				print("Wave " + wave);
+				print("Enemies in wave: " + enemiesPerSpawnWave);
+			}
+			var selectedQueue = enemySpawnQueues[UnityEngine.Random.Range(0, enemySpawnQueues.Length)];
+			var selectedEnemy = GetEnemyUnit(difficulty);
+			print(selectedEnemy);
+			selectedQueue.Add(new EnemySpawn(selectedEnemy, wave*spawnInterval));
+			enemiesInWave++;
 		}
 	}
 
@@ -420,9 +419,12 @@ public class GameManager : Singleton<GameManager>
 	/// <returns></returns>
 	public bool CheckValidSpawn(Vector2Int pos)
 	{
-		bool validSpawn = true;
-		validSpawn = CheckValidPosition(pos, "Enemy");
-		return validSpawn;
+		if (!CheckValidPosition(pos, "Enemy")) return false;
+		
+		var hit = Physics2D.OverlapCircle(pos,0.45f);
+		if (hit != null) return false;
+
+		return true;
 	}
 
 }
@@ -441,3 +443,11 @@ public class EnemyListHelper : UnitListHelper
 	public int weight;
 }
 
+public class EnemySpawn {
+	public GameObject enemy;
+	public float time;
+	public EnemySpawn(GameObject enemy, float time) {
+		this.enemy = enemy;
+		this.time = time;
+	}
+}
