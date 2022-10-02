@@ -29,7 +29,9 @@ public class GameManager : Singleton<GameManager>
 	public bool CanRedeployFromBench = false;
 	public Entity warlock;
 
-	public int enemiesRemaining = 10;
+	public int enemiesRemaining = 2;
+	private float spawnCD = 0;
+	private float maxspawnCD = 5;
 
 	private Dictionary<float, List<GameObject>> cachedEnemySelectionWeight = new();
 
@@ -189,7 +191,6 @@ public class GameManager : Singleton<GameManager>
 	/// <summary>
 	/// A method that is called when the tactical phase ends
 	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
 	public void OnPlanningPhaseEnd()
 	{
 		currentPhase = GamePhase.Combat;
@@ -200,10 +201,6 @@ public class GameManager : Singleton<GameManager>
 		DisableRedeployment();
 		RecordOriginalPositions();
 		enemiesRemaining = 10;
-		// TODO: Things that need to happen in the combat phase that are triggered on this method call
-		//	1. Dynamic Enemy Generation on a round to round basis (enemies may be continually responding)
-		//	2. Players Units Activate to fight oncoming enemies
-		//	3. Lockout placing/moving Units
 	}
 
 
@@ -219,37 +216,31 @@ public class GameManager : Singleton<GameManager>
 	/// <summary>
 	/// A method that is called when the Redeployment phase ends, and the Combat Phase resumes
 	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
 	public void OnRedeploymentPhaseEnds()
 	{
 		currentPhase = GamePhase.Combat;
 		pausedGameIndicator.SetActive(false);
 		DisableRedeployment();
-		//TODO: Things that need to happen upon resuming combat
 	}
 
 	/// <summary>
 	/// A method to handle the situation when the round was ended due to the round taking too long. 
 	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
 	public void OnRoundEndTimeout()
 	{
 		currentPhase = GamePhase.Planning;
 		OnPlanningPhaseStart();
-		throw new NotImplementedException();
 	}
 
 	/// <summary>
 	/// A method to handle the end of a round due to all enemies being killed.
 	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
 	public void OnRoundEnd()
 	{
 		currentPhase = GamePhase.Planning;
 		round++;
 		currency += currencyPerRound;
 		OnPlanningPhaseStart();
-		throw new NotImplementedException();
 	}
 
 	public void OnGameOver() {
@@ -328,10 +319,6 @@ public class GameManager : Singleton<GameManager>
 		return new MeleeZombie();
 	}
 	#endregion
-
-
-	private float spawnCD = 0;
-	private float maxspawnCD = 5;
 
 	/// <summary>
 	/// A method that handles spawning new enemies on the board at particular times
