@@ -199,6 +199,7 @@ public class GameManager : Singleton<GameManager>
 		startRoundButton.SetActive(false);
 		DisableRedeployment();
 		RecordOriginalPositions();
+		enemiesRemaining = 10;
 		// TODO: Things that need to happen in the combat phase that are triggered on this method call
 		//	1. Dynamic Enemy Generation on a round to round basis (enemies may be continually responding)
 		//	2. Players Units Activate to fight oncoming enemies
@@ -212,10 +213,7 @@ public class GameManager : Singleton<GameManager>
 	/// <returns>true = round is done, false = round is NOT done</returns>
 	public bool CheckRoundState()
 	{
-		if (enemyUnitCache.Count > 0)
-			return false;
-
-		return true;
+		return (enemyUnitCache.Count == 0 && enemiesRemaining == 0);
 	}
 
 	/// <summary>
