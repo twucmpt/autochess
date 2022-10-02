@@ -8,6 +8,7 @@ public enum unitTypes
 	MeleeZombie,
 	BowSkeleton,
 	HumanPeasent,
+	Lich
 }
 
 /// <summary>
@@ -77,6 +78,15 @@ public class BowSkeleton : UnitType
 	{
 		base.Init();
 		type = unitTypes.BowSkeleton;
+	}
+}
+
+public class Lich : UnitType
+{
+	public override void Init()
+	{
+		base.Init();
+		type = unitTypes.Lich;
 	}
 }
 

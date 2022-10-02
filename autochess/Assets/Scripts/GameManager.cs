@@ -276,6 +276,7 @@ public class GameManager : Singleton<GameManager>
 	public bool AddUnitFromPrefab(Vector2Int pos, GameObject unitPrefab, bool EnableUnit = false)
 	{
 		if (!CheckValidPosition(pos, unitPrefab.tag)) return false;
+		print("Intatiating a new unit " + unitPrefab.name);
 
 		GameObject newUnitGO = Instantiate(unitPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
 		return AddUnit(pos, newUnitGO, EnableUnit);

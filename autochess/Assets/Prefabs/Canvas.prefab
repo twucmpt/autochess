@@ -130,7 +130,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 13.6
+  m_fontSize: 14.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11.2
+  m_fontSize: 12
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.35
+  m_fontSize: 19.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -549,7 +549,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16.5
+  m_fontSize: 17.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1285,11 +1285,11 @@ MonoBehaviour:
   rerollCost: 5
   increaseMaxUnitsCost: 5
   unitSelectionList:
-  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
-  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
-  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
-  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
-  - {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
+  - {fileID: 5682133080147975048, guid: 13d3762581ce5d844bb28282103d1a27, type: 3}
+  - {fileID: 5682133080147975048, guid: 13d3762581ce5d844bb28282103d1a27, type: 3}
+  - {fileID: 3205522958282384330, guid: 3229444f004868a429f0dadd56c6f181, type: 3}
+  - {fileID: 3205522958282384330, guid: 3229444f004868a429f0dadd56c6f181, type: 3}
+  - {fileID: 2854209830272429701, guid: ef4c1ccb3e1766649a3a0b9248353a03, type: 3}
   slots:
   - {fileID: 7474421690491339269}
   - {fileID: 7131181041357974561}
@@ -1883,7 +1883,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.1
+  m_fontSize: 23.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2287,7 +2287,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 13.6
+  m_fontSize: 14.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2399,7 +2399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1790583308192703772, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 9.45
+      value: 10.1
       objectReference: {fileID: 0}
     - target: {fileID: 1989417958717952120, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2579,7 +2579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8854854246555874498, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 12.05
+      value: 12.85
       objectReference: {fileID: 0}
     - target: {fileID: 9150641623653074384, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2638,7 +2638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1790583308192703772, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 9.45
+      value: 10.1
       objectReference: {fileID: 0}
     - target: {fileID: 1989417958717952120, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2818,7 +2818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8854854246555874498, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 12.05
+      value: 12.85
       objectReference: {fileID: 0}
     - target: {fileID: 9150641623653074384, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2873,7 +2873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1790583308192703772, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 9.45
+      value: 10.1
       objectReference: {fileID: 0}
     - target: {fileID: 1989417958717952120, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3053,7 +3053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8854854246555874498, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 12.05
+      value: 12.85
       objectReference: {fileID: 0}
     - target: {fileID: 9150641623653074384, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3112,7 +3112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1790583308192703772, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 9.45
+      value: 10.1
       objectReference: {fileID: 0}
     - target: {fileID: 1989417958717952120, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3292,7 +3292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8854854246555874498, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 12.05
+      value: 12.85
       objectReference: {fileID: 0}
     - target: {fileID: 9150641623653074384, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3351,7 +3351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1790583308192703772, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 9.45
+      value: 10.1
       objectReference: {fileID: 0}
     - target: {fileID: 1790583308192703772, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSizeMin
@@ -3527,7 +3527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8854854246555874498, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_fontSize
-      value: 12.05
+      value: 12.85
       objectReference: {fileID: 0}
     - target: {fileID: 9150641623653074384, guid: e9fd90e281151a2468ab919ffb3d2cb4, type: 3}
       propertyPath: m_LocalRotation.w

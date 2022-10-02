@@ -49,12 +49,14 @@ MonoBehaviour:
   currentPhase: 0
   unitListHelpers:
   - type: 0
-    unitPrefab: {fileID: 5946530589819610558, guid: d0ff47af4c8c9964a98ef19d245c146d, type: 3}
+    unitPrefab: {fileID: 5682133080147975048, guid: 13d3762581ce5d844bb28282103d1a27, type: 3}
   - type: 1
-    unitPrefab: {fileID: 7444813653333059714, guid: 7614474e02db8b74aa6808628cd1df57, type: 3}
+    unitPrefab: {fileID: 3205522958282384330, guid: 3229444f004868a429f0dadd56c6f181, type: 3}
+  - type: 3
+    unitPrefab: {fileID: 2854209830272429701, guid: ef4c1ccb3e1766649a3a0b9248353a03, type: 3}
   enemyListHelpers:
-  - type: 0
-    unitPrefab: {fileID: 5946530589819610558, guid: c5bf63b3946ff3c41838c667f3193a8d, type: 3}
+  - type: 2
+    unitPrefab: {fileID: 5401917378570716717, guid: 6a04da38ec8220546af276cf81ca08eb, type: 3}
     difficulty: 0
     weight: 1
   enemyUnitCache: []

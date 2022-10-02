@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 6080650397175766053}
   - component: {fileID: -6227687053977436089}
   - component: {fileID: 4118629351720776107}
+  - component: {fileID: -5864760045470733234}
   m_Layer: 6
   m_Name: Base Unit
   m_TagString: Untagged
@@ -260,6 +261,18 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: -0.2}
+--- !u!114 &-5864760045470733234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5946530589819610558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612e2b722504b6b44ad7417bd1e16f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &580965494655161647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -853,6 +866,68 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
+--- !u!1 &2432273048124937582 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3013236326369607745, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
+  m_PrefabInstance: {fileID: 580965494655161647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4487382529853451377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2432273048124937582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a451be855dc8346b8c1ecb8124304f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationStartCallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -6229621072084196746}
+        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
+        m_MethodName: AnimationStartCallback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  animationImpactCallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -6229621072084196746}
+        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
+        m_MethodName: AnimationImpactCallback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  animationEndCallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -6229621072084196746}
+        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
+        m_MethodName: AnimationEndCallback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &3533411077682695437 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4114376555069380642, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
