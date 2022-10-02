@@ -41,14 +41,14 @@
     var currentPosRounded = Vector2Int.RoundToInt(GetCurrentMousePos());
     Unit unit = GetComponent<Unit>();
     if (Graveyard.Instance.Contains(gameObject)) {
-        if (GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
+        if (currentPosRounded.x < GameManager.Instance.gridWidth/2 && GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
             transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
             Graveyard.Instance.RemoveUnit(gameObject);
         }
         else transform.position = originalPos;
     }
     else if (Bench.Instance.Contains(gameObject)) {
-        if (GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
+        if (currentPosRounded.x < GameManager.Instance.gridWidth/2 && GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
             transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
             Bench.Instance.RemoveUnit(gameObject);
         }
@@ -59,7 +59,7 @@
             GameManager.Instance.RemoveUnit(unit);
             return;
         }
-        if (GameManager.Instance.CheckValidPosition(currentPosRounded, tag) && unit.MoveUnit(currentPosRounded)) transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
+        if (GameManager.Instance.CheckValidPosition(currentPosRounded, tag) && currentPosRounded.x < GameManager.Instance.gridWidth/2 && unit.MoveUnit(currentPosRounded)) transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
         else transform.position = originalPos;
     }
     
