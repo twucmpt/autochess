@@ -210,16 +210,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6076d520dd505604fa25c92a6705a26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  animation: {fileID: 0}
-  range: 0
+  name: Punch
+  animation: {fileID: 7400000, guid: b8445b92ebc858f4083ef98d8b534a23, type: 2}
+  range: 1
   rangeType: 0
   angle: 0
-  power: 0
+  power: 10
+  cooldown: 1
+  currentCooldown: 0
+  includeUser: 0
+  friendlyFire: 0
+--- !u!114 &8988301912847625733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372087360331035314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 990897670e863794d88249ce469c339f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Stone Warlock
+  animation: {fileID: 7400000, guid: b8445b92ebc858f4083ef98d8b534a23, type: 2}
+  range: 2
+  rangeType: 1
+  angle: 90
+  power: 1
   cooldown: 0
   currentCooldown: 0
   includeUser: 0
   friendlyFire: 0
+  projectilePrefab: {fileID: 5266561708417888548, guid: 474cd9e31947a0945a6512299dde74c6, type: 3}
+  speed: 3
 --- !u!4 &5401917378570716718 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6441689846012822281, guid: 54955e7d67917d947b36cf62cf03d0bc, type: 3}
