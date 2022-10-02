@@ -32,6 +32,11 @@ public class GameManager : Singleton<GameManager>
 	public int enemiesRemaining = 2;
 	public float spawnInterval = 5;
 	public int maxPlacedUnits = 1;
+	public int playerXP = 0;
+	public int xpGainedPerRound = 10;
+	public int xpRequirementIncreasePerLevel = 10;
+
+
 	public int currentNumberOfPlacedUnits {get{
 		int count = Graveyard.Instance.units.Count;
 		foreach (var unit in unitPositions.Values) {
@@ -68,6 +73,15 @@ public class GameManager : Singleton<GameManager>
 
 	}
 
+	public void AddXP(int xp)
+	{
+		playerXP += xp;
+		if(playerXP >= maxPlacedUnits * xpRequirementIncreasePerLevel)
+		{
+			playerXP -= maxPlacedUnits * xpRequirementIncreasePerLevel;
+			maxPlacedUnits++;
+		}
+	}
 
 	/// <summary>
 	/// Time in Seconds
@@ -242,6 +256,7 @@ public class GameManager : Singleton<GameManager>
 		currentPhase = GamePhase.Planning;
 		round++;
 		currency += currencyPerRound;
+		AddXP(xpGainedPerRound);
 		OnPlanningPhaseStart();
 	}
 
