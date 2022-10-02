@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7557220870327347606}
   - component: {fileID: 2161669255743144774}
   - component: {fileID: 2469209239994658528}
+  - component: {fileID: 9205208675615027234}
   m_Layer: 0
   m_Name: Incoming Enemies Alert
   m_TagString: Untagged
@@ -118,6 +119,18 @@ MonoBehaviour:
   alertContainer: {fileID: 4889740152602395191}
   row: 0
   alertTime: 8
+--- !u!114 &9205208675615027234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4710376428079400881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612e2b722504b6b44ad7417bd1e16f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4864185985254418168
 GameObject:
   m_ObjectHideFlags: 0
