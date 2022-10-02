@@ -48,7 +48,7 @@
         else transform.position = originalPos;
     }
     else if (Bench.Instance.Contains(gameObject)) {
-        if (currentPosRounded.x < GameManager.Instance.gridWidth/2 && GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
+        if (GameManager.Instance.currentNumberOfPlacedUnits < GameManager.Instance.maxPlacedUnits && currentPosRounded.x < GameManager.Instance.gridWidth/2 && GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
             transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
             Bench.Instance.RemoveUnit(gameObject);
         }

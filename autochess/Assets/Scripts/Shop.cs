@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Shop : MonoBehaviour
 {
     public int rerollCost = 5;
+    public int increaseMaxUnitsCost = 5;
     public List<GameObject> unitSelectionList = new ();
     public GameObject[] slots = new GameObject[5];
 
@@ -64,6 +65,19 @@ public class Shop : MonoBehaviour
         }
         else {
             print("Rerolling failed");
+        }
+    }
+
+    public void IncreaseMaxUnits() {
+        if (GameManager.Instance.currency >= increaseMaxUnitsCost) {
+            GameManager.Instance.currency -= increaseMaxUnitsCost;
+            
+            GameManager.Instance.maxPlacedUnits += 1;
+
+            print("Increase max units successful");
+        }
+        else {
+            print("Increase max units failed");
         }
     }
 

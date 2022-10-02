@@ -32,6 +32,14 @@ public class GameManager : Singleton<GameManager>
 	public int enemiesRemaining = 2;
 	private float spawnCD = 0;
 	private float maxspawnCD = 5;
+	public int maxPlacedUnits = 1;
+	public int currentNumberOfPlacedUnits {get{
+		int count = Graveyard.Instance.units.Count;
+		foreach (var unit in unitPositions.Values) {
+			if (unit.CompareTag("Player")) count ++;
+		}
+		return count;
+	}}
 
 	private Dictionary<float, List<GameObject>> cachedEnemySelectionWeight = new();
 
