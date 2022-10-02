@@ -68,16 +68,16 @@ public class Shop : MonoBehaviour
         }
     }
 
-    public void IncreaseMaxUnits() {
+    public void BuyXP() {
         if (GameManager.Instance.currency >= increaseMaxUnitsCost) {
             GameManager.Instance.currency -= increaseMaxUnitsCost;
             
-            GameManager.Instance.maxPlacedUnits += 1;
+            GameManager.Instance.AddXP(5);
 
-            print("Increase max units successful");
+            print("Increase xp successful");
         }
         else {
-            print("Increase max units failed");
+            print("Increase xp failed");
         }
     }
 
