@@ -34,9 +34,9 @@ public class Shop : MonoBehaviour
     }
 
     public void SetShopUnit(int slot, GameObject prefab) {
-        var slotRenderer = shopUnitRenderer.GetChild(slot);
-        if (slotRenderer.childCount > 1) {
-            Destroy(slotRenderer.GetChild(1).gameObject);
+        var slotRenderer = shopUnitRenderer.GetChild(slot).GetChild(0);
+        if (slotRenderer.childCount > 0) {
+            Destroy(slotRenderer.GetChild(0).gameObject);
         }
 
         if (prefab == null) {

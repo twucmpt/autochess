@@ -6,9 +6,11 @@ public class UnitRenderRow : MonoBehaviour
 {
     private int indexOffset = 1;
     private SpriteRenderer[] sprites;
+    private Canvas[] canvases;
 
     void Start() {
         sprites = GetComponentsInChildren<SpriteRenderer>();
+        canvases = GetComponentsInChildren<Canvas>();
     }
     void Update() {
         int row = Mathf.RoundToInt(transform.position.y);
@@ -20,6 +22,9 @@ public class UnitRenderRow : MonoBehaviour
         catch {}
         foreach(var sprite in sprites) {
             sprite.sortingLayerID = id;
+        }
+        foreach(var canvas in canvases) {
+            canvas.sortingLayerID = id;
         }
     }
 }
