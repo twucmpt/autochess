@@ -31,7 +31,7 @@ public class Ability : MonoBehaviour
         var targets = new List<Entity>();
         switch (rangeType) {
             case AttackRangeType.Linear:
-                var linearHits = Physics2D.RaycastAll(user.transform.position, user.facingRight ? Vector2.right : Vector2.left, range, LayerMask.GetMask("Entities"));
+                var linearHits = Physics.RaycastAll(user.transform.position, user.facingRight ? Vector2.right : Vector2.left, range, LayerMask.GetMask("Entities"));
                 foreach (var hit in linearHits) {
                     if (targetTag is null || hit.collider.transform.CompareTag(targetTag)) {
                         Entity unit = hit.collider.transform.GetComponent<Entity>();
@@ -40,7 +40,7 @@ public class Ability : MonoBehaviour
                 }
                 return targets;
             case AttackRangeType.Cone:
-                var circleHits = Physics2D.OverlapCircleAll(user.transform.position, range, LayerMask.GetMask("Entities"));
+                var circleHits = Physics.OverlapSphere(user.transform.position, range, LayerMask.GetMask("Entities"));
                 foreach(var collider in circleHits) {
                     if (targetTag is not null && !collider.transform.CompareTag(targetTag)) 
 						continue;

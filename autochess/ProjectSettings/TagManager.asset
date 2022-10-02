@@ -9,7 +9,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Board
   - Water
   - UI
   - Entities
@@ -42,9 +42,27 @@ TagManager:
   - name: Background
     uniqueID: 3907033845
     locked: 0
-  - name: Default
-    uniqueID: 0
+  - name: Row 6
+    uniqueID: 3169442715
+    locked: 0
+  - name: Row 5
+    uniqueID: 2425459075
+    locked: 0
+  - name: Row 4
+    uniqueID: 2474734101
+    locked: 0
+  - name: Row 3
+    uniqueID: 1713802325
+    locked: 0
+  - name: Row 2
+    uniqueID: 3138013757
+    locked: 0
+  - name: Row 1
+    uniqueID: 4254263689
     locked: 0
   - name: Foreground
     uniqueID: 3240560669
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0

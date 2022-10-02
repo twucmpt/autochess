@@ -18,7 +18,7 @@ public class PunchAttack : Ability
 				if (targetAngle > angle || Vector3.Distance(user.transform.position, target.transform.position) > range) break;
 
 				// Hit all units in a line
-				var linearHits = Physics2D.RaycastAll(user.transform.position, target.transform.position - user.transform.position, range, LayerMask.GetMask("Entities"));
+				var linearHits = Physics.RaycastAll(user.transform.position, target.transform.position - user.transform.position, range, LayerMask.GetMask("Entities"));
 				foreach (var hit in linearHits)
 				{
 					unitsHit.Add(hit.collider.transform.root.GetComponent<Entity>());

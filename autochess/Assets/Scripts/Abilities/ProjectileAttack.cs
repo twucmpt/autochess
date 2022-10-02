@@ -11,7 +11,7 @@ public class ProjectileAttack : Ability {
         projectile.direction = (target.transform.position - user.transform.position).normalized;
     }
 
-    public void OnProjectileHit(Projectile projectile, Collider2D collider) {
+    public void OnProjectileHit(Projectile projectile, Collider collider) {
         Entity unit = collider.transform.GetComponent<Entity>();
         if (unit == user) return;
         if (!friendlyFire && unit.CompareTag(user.tag)) return;

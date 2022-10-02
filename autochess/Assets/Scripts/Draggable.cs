@@ -14,11 +14,7 @@
  {
     if (!enabled) return;
     originalPos = transform.position;
-     screenPoint = Camera.main.WorldToScreenPoint(transform.position);
- 
-     offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-     pickedUp = true;
- 
+    pickedUp = true;
  }
  
  void OnMouseDrag()
@@ -29,8 +25,7 @@
         return;
     }
     if (!enabled) return;
- transform.position = GetCurrentMousePos();
- 
+    transform.position = GetCurrentMousePos();
  }
 
  
@@ -55,7 +50,7 @@
         else transform.position = originalPos;
     }
     else {
-        if (currentPosRounded.x < 0 && Bench.Instance.AddUnit(gameObject)) {
+        if ((currentPosRounded.x < -1 || currentPosRounded.y < 0) && Bench.Instance.AddUnit(gameObject)) {
             GameManager.Instance.RemoveUnit(unit);
             return;
         }
@@ -66,9 +61,12 @@
  }
 
  Vector3 GetCurrentMousePos() {
-    Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
- 
-    return Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+    RaycastHit hit;
+    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    if (Physics.Raycast(ray, out hit, 10000.0f, LayerMask.GetMask("Board"))) {
+        return hit.point;
+    }
+    throw new UnityException();
  }
  
  }
