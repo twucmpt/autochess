@@ -18,6 +18,10 @@ public class UnitType
 	public string name;
 	public unitTypes type;
 	public UnitBaseStats stats;
+	public Dictionary<string,AudioClip> sounds;
+	
+	public AudioSource sfxBus;
+
 	public List<Ability> abilities = new();
 	public int cost = 1;
 
@@ -60,31 +64,51 @@ public class UnitType
 		}
 		
 	}
+
+	public void PlaySound(string sound) {
+		if (this.sounds.ContainsKey(sound))
+			sfxBus.PlayOneShot(sounds[sound]);
+    }
 }
 
 public class MeleeZombie : UnitType
 {
-	public override void Init()
-	{
+
+
+	public override void Init() {
 		base.Init();
 		type = unitTypes.MeleeZombie;
+		sounds = new() {
+			["death"] = Resources.Load<AudioClip>("SFX/zombiedeath.wav"),
+			["action"] = Resources.Load<AudioClip>("SFX/zombiemoan.wav")
+		};
+
 	}
 }
 
 public class BowSkeleton : UnitType
 {
-	public override void Init()
-	{
-		base.Init();
-		type = unitTypes.BowSkeleton;
+
+	public override void Init() {
+			base.Init();
+			type = unitTypes.BowSkeleton;
+			sounds = new() {
+				["death"] = Resources.Load<AudioClip>("SFX/zombiedeath.wav"),
+				["action"] = Resources.Load<AudioClip>("SFX/zombiemoan.wav")
+			};
 	}
 }
 
 public class HumanPeasent : UnitType
 {
-	public override void Init()
-	{
-		base.Init();
-		type = unitTypes.HumanPeasent;
+
+	public override void Init() {
+			base.Init();
+			type = unitTypes.HumanPeasent;
+			sounds = new() {
+				["death"] = Resources.Load<AudioClip>("SFX/humandeath1.wav"),
+				["action"] = Resources.Load<AudioClip>("SFX/humandeath2.wav")
+			};
+
+		}
 	}
-}

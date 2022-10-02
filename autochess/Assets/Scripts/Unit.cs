@@ -28,6 +28,8 @@ public class Unit : Entity
 	public UnitType type;
 	public unitTypes myType;
     public Vector2Int originalPosition;
+	public AudioSource sfxBus;
+
 
 	void Start() 
 	{
@@ -43,6 +45,7 @@ public class Unit : Entity
 		type = gameManager.GetUnitType(myType);
 
 		type.abilities = GetComponentsInChildren<Ability>().ToList();
+		type.sfxBus = sfxBus;
 	}
 	
 
