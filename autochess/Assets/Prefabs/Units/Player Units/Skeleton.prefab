@@ -183,6 +183,10 @@ PrefabInstance:
       propertyPath: m_Bounds.m_Extent.z
       value: 1.9843037e-16
       objectReference: {fileID: 0}
+    - target: {fileID: 8578664334799105391, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
+      propertyPath: myType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8594659094132999174, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
       propertyPath: m_IsActive
       value: 0
