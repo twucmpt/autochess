@@ -12,7 +12,8 @@ public class UnitRenderRow : MonoBehaviour
     }
     void Update() {
         int row = Mathf.RoundToInt(transform.position.y);
-        int id = SortingLayer.GetLayerValueFromName("Default");
+        int id = SortingLayer.NameToID("Background");
+        if (row < 0) id = SortingLayer.NameToID("Default");
         try {
             id = SortingLayer.layers[GameManager.Instance.gridHeight-row+indexOffset-1].id;
         }
