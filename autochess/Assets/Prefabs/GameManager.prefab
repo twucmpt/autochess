@@ -62,6 +62,13 @@ MonoBehaviour:
   startRoundButton: {fileID: 0}
   CanRedeployFromGrid: 0
   CanRedeployFromBench: 0
+  warlock: {fileID: 0}
+  enemiesRemaining: 10
+  spawnInterval: 10
+  maxPlacedUnits: 1
   currency: 10
+  currencyPerRound: 10
+  round: 1
   time: 0
+  totalTimeInCombat: 0
   currentDifficulty: 0
