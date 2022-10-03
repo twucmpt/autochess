@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class Unit : Entity
 {
-    public int power = 10;
+    public float power = 1f;
     public bool facingRight = true;
 	public bool isEnemy {get{return CompareTag("Enemy");}}
     public float speed = 1;
@@ -54,12 +54,13 @@ public class Unit : Entity
 		DetermineAction();
 	}
 
-	public void AddTier()
+	public void SetTier(int tier)
 	{
-		GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/lvlup"));
-		tier = Mathf.Min(tier + 1, 3);
-		transform.localScale *= 1.1f;
-		ResetMaxHealth();
+		//GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/lvlup"));
+		//tier = Mathf.Min(tier + 1, 3);
+		transform.localScale = Vector3.one*(1 + 0.01f*tier);
+		power = (1 + 0.1f*tier);
+		//ResetMaxHealth();
 	}
 
 	private void ResetMaxHealth()

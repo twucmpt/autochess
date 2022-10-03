@@ -216,12 +216,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  power: 10
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  power: 1
   facingRight: 1
   speed: 1
+  tier: 1
   gridPos: {x: 0, y: 0}
   animator: {fileID: 0}
-  soundSlave: {fileID: 6407583907938671103, guid: 04dee4e29871f6b4d89faa9199519205, type: 3}
   myType: 0
   originalPosition: {x: 0, y: 0}
 --- !u!114 &6080650397175766053
@@ -248,6 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c43b2d45936e0e40bbb8641eb5a3d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSpeed: 1
 --- !u!136 &4118629351720776107
 CapsuleCollider:
   m_ObjectHideFlags: 0

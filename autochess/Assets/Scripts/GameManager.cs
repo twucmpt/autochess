@@ -104,27 +104,10 @@ public class GameManager : Singleton<GameManager>
 
 		foreach (unitTypes type in Enum.GetValues(typeof(unitTypes)))
 		{
-			for (int i = 0; i < 3; i++)
-			{
-				List<Unit> likeUnits = units.Where(x => x.type.type == type && x.tier == i).ToList();
-
-				if (likeUnits.Count >= 3)
-				{
-					Unit unit1 = likeUnits[0];
-					Unit unit2 = likeUnits[1];
-					Unit unit3 = likeUnits[2];
-
-					likeUnits.RemoveRange(1, 2);
-					allPlayerUnits.Remove(unit2);
-					allPlayerUnits.Remove(unit3);
-					Destroy(unit2.gameObject);
-					Destroy(unit3.gameObject);
-
-
-					unit1.AddTier();
+				List<Unit> likeUnits = units.Where(x => x.type.type == type).ToList();
+				foreach(var unit in likeUnits) {
+					unit.SetTier(likeUnits.Count);
 				}
-			}
-
 		}
 	}
 

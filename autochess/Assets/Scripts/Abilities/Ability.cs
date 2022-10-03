@@ -14,7 +14,8 @@ public class Ability : MonoBehaviour
     public float range;
     public AttackRangeType rangeType;
     public float angle;
-    public int power;
+    public int basePower = 1;
+    public int power {get{return (int)user.power*basePower;}}
     public float cooldown;
     public float currentCooldown;
     public bool includeUser = false;

@@ -207,7 +207,7 @@ MonoBehaviour:
   range: 1
   rangeType: 0
   angle: 0
-  power: 5
+  basePower: 5
   cooldown: 2
   currentCooldown: 0
   includeUser: 0
