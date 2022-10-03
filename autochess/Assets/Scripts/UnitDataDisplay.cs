@@ -16,8 +16,8 @@ public class UnitDataDisplay : MonoBehaviour
         if (this.slot != slot) return;
         Unit unit = shop.GetShopUnit(slot).GetComponent<Unit>();
         costText.SetText(unit.type.cost.ToString());
-        //nameText.SetText(unit.type.name.ToString());
-        //healthText.SetText(unit.type.stats.health.ToString());
+        nameText.SetText(unit.gameObject.name.ToString().Replace("(Clone)",""));
+        healthText.SetText(unit.maxHealth.ToString());
         powerText.SetText(unit.power.ToString());
     }
 }
