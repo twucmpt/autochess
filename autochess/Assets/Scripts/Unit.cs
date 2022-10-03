@@ -56,6 +56,7 @@ public class Unit : Entity
 
 	public void AddTier()
 	{
+		GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/lvlup"));
 		tier = Mathf.Min(tier + 1, 3);
 		transform.localScale *= 1.1f;
 		ResetMaxHealth();
