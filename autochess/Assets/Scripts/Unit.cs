@@ -45,7 +45,6 @@ public class Unit : Entity
 		type = gameManager.GetUnitType(myType);
 
 		type.abilities = GetComponentsInChildren<Ability>().ToList();
-		type.sfxBus = sfxBus;
 		ResetMaxHealth();
 	}
 	
