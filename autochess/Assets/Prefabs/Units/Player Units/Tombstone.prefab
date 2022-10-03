@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4633952463528105557}
   - component: {fileID: 5292079298671665979}
+  - component: {fileID: 6468988826507145682}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -137,6 +138,78 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6468988826507145682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6591253995479809604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a451be855dc8346b8c1ecb8124304f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationStartCallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 581050793240152721}
+        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
+        m_MethodName: AnimationStartCallback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  animationImpactCallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 581050793240152721}
+        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
+        m_MethodName: AnimationImpactCallback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  animationEndCallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 581050793240152721}
+        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
+        m_MethodName: AnimationEndCallback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 581050793240152721}
+        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
+        m_MethodName: OnDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &9159696419060885502
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,6 +287,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
+--- !u!114 &581050793240152721 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8578664334799105391, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
+  m_PrefabInstance: {fileID: 9159696419060885502}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05f6f65e6783734496a75a52d168997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8295045756010286426 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 864738916107840164, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
