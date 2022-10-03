@@ -206,7 +206,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4890547669679103544, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
   m_PrefabInstance: {fileID: 3142417158051496994}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1048033479129183332
+--- !u!114 &5191455432783967953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,14 +215,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7512757276434160154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e99c476de8fb8eb4ab2f881fcf55e185, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b0391f34d0cb864081f6e3f2edddefa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  name: Magic Orb
   animation: {fileID: 7400000, guid: b8445b92ebc858f4083ef98d8b534a23, type: 2}
   range: 5
   rangeType: 1
-  angle: 10
+  angle: 30
   power: 50
   cooldown: 20
   currentCooldown: 0
@@ -230,3 +230,5 @@ MonoBehaviour:
   friendlyFire: 0
   projectilePrefab: {fileID: 5266561708417888548, guid: e3c43c0c04c9bd44db46eb546e1eb26c, type: 3}
   speed: 1
+  radius: 1.5
+  effect: {fileID: 7576195154436683985, guid: 8224a23b5c13de5418bdea49543d5e54, type: 3}
