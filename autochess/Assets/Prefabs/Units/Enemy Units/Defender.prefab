@@ -84,6 +84,10 @@ PrefabInstance:
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3601425634722873829, guid: 6a04da38ec8220546af276cf81ca08eb, type: 3}
+      propertyPath: baseHealth
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601425634722873829, guid: 6a04da38ec8220546af276cf81ca08eb, type: 3}
       propertyPath: currentHealth
       value: 2147483647
       objectReference: {fileID: 0}
@@ -273,7 +277,7 @@ MonoBehaviour:
   range: 2.2
   rangeType: 1
   angle: 10
-  power: 1
+  basePower: 1
   cooldown: 0
   currentCooldown: 0
   includeUser: 0

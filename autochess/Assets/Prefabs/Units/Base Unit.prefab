@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  baseHealth: 10
   currentHealth: 10
   OnZeroHealth:
     m_PersistentCalls:

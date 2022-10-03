@@ -83,6 +83,8 @@ public class GameManager : Singleton<GameManager>
 		unitTypeEnumToClass.Add(unitTypes.MeleeZombie, new MeleeZombie());
 		unitTypeEnumToClass.Add(unitTypes.BowSkeleton, new BowSkeleton());
 		unitTypeEnumToClass.Add(unitTypes.HumanPeasent, new HumanPeasent());
+		unitTypeEnumToClass.Add(unitTypes.Lich, new Lich());
+		unitTypeEnumToClass.Add(unitTypes.Tombstone, new Tombstone());
 
 	}
 
@@ -213,6 +215,7 @@ public class GameManager : Singleton<GameManager>
 			if (!unit.CompareTag("Player")) continue;
 			RemoveUnit(unit);
 			AddUnit(unit.originalPosition, unit.gameObject);
+			unit.currentHealth = unit.maxHealth;
 			unit.transform.position = new Vector3(unit.originalPosition.x, unit.originalPosition.y, 0);
 		}
 	}
@@ -232,7 +235,7 @@ public class GameManager : Singleton<GameManager>
 		RestoreUnitsToOriginalPlacement();
 		EnableRedeployment();
 
-		enemiesRemaining = 10;
+		enemiesRemaining = 5+5*round;
 		GenerateEnemies(currentDifficulty);
 	}
 
@@ -246,6 +249,8 @@ public class GameManager : Singleton<GameManager>
 		CanRedeployFromBench = false;
 		pausedGameIndicator.SetActive(false);
 		startRoundButton.SetActive(false);
+		time = 0;
+		totalTimeInCombat = 0;
 		DisableRedeployment();
 		RecordOriginalPositions();
 	}
@@ -288,6 +293,7 @@ public class GameManager : Singleton<GameManager>
 		round++;
 		currency += currencyPerRound;
 		AddXP(xpGainedPerRound);
+		GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/lvlup"));
 		OnPlanningPhaseStart();
 	}
 
@@ -385,10 +391,12 @@ public class GameManager : Singleton<GameManager>
 				return new HumanPeasent();
 			case unitTypes.Lich:
 				return new Lich();
+			case unitTypes.Tombstone:
+				return new Tombstone();
 
 		}
 
-		return new MeleeZombie();
+		throw new UnityException();
 	}
 	#endregion
 
@@ -429,7 +437,7 @@ public class GameManager : Singleton<GameManager>
 
 		int wave = 0;
 		int enemiesInWave = 0;
-		int enemiesPerSpawnWave = UnityEngine.Random.Range(1,4);
+		int enemiesPerSpawnWave = UnityEngine.Random.Range(1,2+2*round);
 		print("Wave " + wave);
 		print("Enemies in wave: " + enemiesPerSpawnWave);
 		for (int i = 0; i < enemiesRemaining; i++) {
@@ -443,7 +451,7 @@ public class GameManager : Singleton<GameManager>
 			var selectedQueue = enemySpawnQueues[UnityEngine.Random.Range(0, enemySpawnQueues.Length)];
 			var selectedEnemy = GetEnemyUnit(difficulty);
 			print(selectedEnemy);
-			selectedQueue.Add(new EnemySpawn(selectedEnemy, wave*spawnInterval));
+			selectedQueue.Add(new EnemySpawn(selectedEnemy, wave*spawnInterval+2));
 			enemiesInWave++;
 		}
 	}

@@ -8,7 +8,8 @@ public enum unitTypes
 	MeleeZombie,
 	BowSkeleton,
 	HumanPeasent,
-	Lich
+	Lich,
+	Tombstone
 }
 
 /// <summary>
@@ -23,6 +24,7 @@ public class UnitType {
 
 	public List<Ability> abilities = new();
 	public int cost = 1;
+	public float tierHealthMulti = 0;
 
 	public UnitType() {
 		Init();
@@ -114,6 +116,20 @@ public class Lich : UnitType {
 		cost = 5;
 	}
 }
+
+public class Tombstone : UnitType {
+	public override void Init() {
+		base.Init();
+		type = unitTypes.Tombstone;
+		sounds = new() {
+			//["death"] = new() { Resources.Load<AudioClip>("SFX/skellyaction") },
+			//["placement"] = new() { Resources.Load<AudioClip>("SFX/skellydeath") },
+		};
+		cost = 10;
+		tierHealthMulti = 0.2f;
+	}
+}
+
 
 public class HumanPeasent : UnitType {
 

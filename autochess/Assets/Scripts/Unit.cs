@@ -49,6 +49,7 @@ public class Unit : Entity
 	}
 	
 	void Update() {
+		if (currentHealth > 0) animator.SetBool("Dead", false);
 		UpdateFacingDirection();
 		type.UpdateAbilityCooldown(Time.deltaTime*speed);
 		DetermineAction();
@@ -60,12 +61,12 @@ public class Unit : Entity
 		//tier = Mathf.Min(tier + 1, 3);
 		transform.localScale = Vector3.one*(1 + 0.01f*tier);
 		power = (1 + 0.1f*tier);
-		//ResetMaxHealth();
+		ResetMaxHealth();
 	}
 
 	private void ResetMaxHealth()
 	{
-		maxHealth = (int)(1.1 * maxHealth);
+		maxHealth = (int)(baseHealth * 1 + type.tierHealthMulti*tier);
 		currentHealth = maxHealth;
 	}
 
@@ -123,6 +124,7 @@ public class Unit : Entity
 	/// </summary>
 	private void DetermineAction()
 	{
+		if(type.type == unitTypes.Tombstone) return;
 
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("idle") && !animator.GetBool("Attacking") && !animator.GetBool("Walking"))
 		{
@@ -189,6 +191,19 @@ public class Unit : Entity
         else {
             Graveyard.Instance.AddUnit(gameObject);
             gameManager.RemoveUnit(this);
+			if (gameManager.currentPhase == GamePhase.Planning) {
+				Graveyard.Instance.RemoveUnit(gameObject);
+				var ogPos = originalPosition;
+				gameManager.AddUnit(ogPos, gameObject);
+				transform.position = new Vector3(ogPos.x, ogPos.y, 0);
+
+				GetComponent<Draggable>().enabled = true;
+				animator.SetBool("Dead", false);
+			}
+			else if (gameManager.currentPhase == GamePhase.Redeployment) {
+				GetComponent<Draggable>().enabled = true;
+				animator.SetBool("Dead", false);
+			}
         }
     }
 
