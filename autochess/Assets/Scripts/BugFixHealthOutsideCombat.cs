@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class BugFixHealthOutsideCombat : MonoBehaviour
 {
-    private Entity entity;
+    private Unit unit;
     void Start()
     {
-        GetComponent<Entity>();
+        GetComponent<Unit>();
     }
 
     void Update()
     {
-        if (GameManager.Instance.currentPhase == GamePhase.Planning) entity.currentHealth = entity.maxHealth;
+        if (GameManager.Instance.currentPhase == GamePhase.Planning) {
+            unit.currentHealth = unit.maxHealth;
+            unit.animator.SetBool("Dead", false);
+        }
     }
 }
