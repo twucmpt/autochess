@@ -157,15 +157,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8578664334799105391, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
       propertyPath: maxHealth
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8578664334799105391, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
       propertyPath: baseHealth
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8578664334799105391, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
       propertyPath: currentHealth
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8580684368148762462, guid: 4d8ac2d95f4afa446b7b5959889ba8a3, type: 3}
       propertyPath: movementSpeed

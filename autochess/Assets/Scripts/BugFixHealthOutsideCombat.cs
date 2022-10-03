@@ -16,5 +16,8 @@ public class BugFixHealthOutsideCombat : MonoBehaviour
             unit.currentHealth = unit.maxHealth;
             unit.animator.SetBool("Dead", false);
         }
+        if (GameManager.Instance.currentPhase != GamePhase.Combat) {
+            unit.animator.SetBool("Attacking", false);
+        }
     }
 }

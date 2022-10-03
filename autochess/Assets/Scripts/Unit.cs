@@ -30,10 +30,13 @@ public class Unit : Entity
 	public unitTypes myType;
     public Vector2Int originalPosition;
 
+	private UnitMoveToGrid move2Grid;
+
 
 	void Start() 
 	{
 		Init();
+		move2Grid = GetComponent<UnitMoveToGrid>();
     }
 
 	public void Init()
@@ -50,6 +53,7 @@ public class Unit : Entity
 	
 	void Update() {
 		if (currentHealth > 0) animator.SetBool("Dead", false);
+        move2Grid.enabled = true;
 		UpdateFacingDirection();
 		type.UpdateAbilityCooldown(Time.deltaTime*speed);
 		DetermineAction();
