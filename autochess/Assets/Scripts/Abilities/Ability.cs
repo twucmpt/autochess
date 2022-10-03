@@ -35,6 +35,7 @@ public class Ability : MonoBehaviour
                 foreach (var hit in linearHits) {
                     if (targetTag is null || hit.collider.transform.CompareTag(targetTag)) {
                         Entity unit = hit.collider.transform.GetComponent<Entity>();
+                        if (unit.currentHealth <= 0) continue;
                         if ((includeUser || unit != user) && unit.enabled) targets.Add(unit);
                     }
                 }
@@ -49,6 +50,7 @@ public class Ability : MonoBehaviour
                     if (targetAngle > angle) continue;
 
                     Entity unit = collider.transform.GetComponent<Entity>();
+                    if (unit.currentHealth <= 0) continue;
                     if ((includeUser || unit != user) && unit.enabled) targets.Add(unit);
                 }
                 return targets;

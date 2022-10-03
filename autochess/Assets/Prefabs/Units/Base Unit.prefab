@@ -206,7 +206,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -6229621072084196746}
         m_TargetAssemblyTypeName: Unit, Assembly-CSharp
-        m_MethodName: OnDeath
+        m_MethodName: OnDying
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -394,6 +394,10 @@ PrefabInstance:
       value: 6.910098e-16
       objectReference: {fileID: 0}
     - target: {fileID: 2244946538223256719, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9999068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2244946538223256719, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.013657426
       objectReference: {fileID: 0}
@@ -416,6 +420,10 @@ PrefabInstance:
     - target: {fileID: 2626634505889029634, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
       propertyPath: m_Bounds.m_Extent.z
       value: 3.7680297e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2831088842405946625, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.018932868
       objectReference: {fileID: 0}
     - target: {fileID: 3013236326369607745, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
       propertyPath: m_Name
@@ -501,6 +509,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4228382938091651438, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4228382938091651438, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4261630230404137085, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9998762
@@ -552,6 +568,10 @@ PrefabInstance:
     - target: {fileID: 4443920997328025767, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.010221273
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527182569334405170, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99969006
       objectReference: {fileID: 0}
     - target: {fileID: 4527182569334405170, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
       propertyPath: m_LocalRotation.x
@@ -680,6 +700,10 @@ PrefabInstance:
     - target: {fileID: 5214862136103989797, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
       propertyPath: m_Bounds.m_Extent.y
       value: 0.11998485
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228546298460453520, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99996084
       objectReference: {fileID: 0}
     - target: {fileID: 5228546298460453520, guid: 0fa31088137a46c4996ace10ce0b0150, type: 3}
       propertyPath: m_LocalRotation.x
@@ -920,6 +944,21 @@ MonoBehaviour:
       - m_Target: {fileID: -6229621072084196746}
         m_TargetAssemblyTypeName: Unit, Assembly-CSharp
         m_MethodName: AnimationEndCallback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -6229621072084196746}
+        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
+        m_MethodName: OnDeath
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -6,6 +6,7 @@ public class AnimationCallback : MonoBehaviour
     public UnityEvent animationStartCallback = new UnityEvent();
     public UnityEvent animationImpactCallback = new UnityEvent();
     public UnityEvent animationEndCallback = new UnityEvent();
+    public UnityEvent onDeath = new UnityEvent();
     public void AnimationStartCallback() {
         animationStartCallback.Invoke();
     }
@@ -14,5 +15,8 @@ public class AnimationCallback : MonoBehaviour
     }
     public void AnimationEndCallback() {
         animationEndCallback.Invoke();
+    }
+    public void OnDeath() {
+        onDeath.Invoke();
     }
 }
