@@ -85,6 +85,7 @@ public class MeleeZombie : UnitType {
 			},
 			["placement"] = new() { Resources.Load<AudioClip>("SFX/zombiemoan"), null, null } // 33% chance to moan xD
 		};
+		cost = 1;
 
 	}
 }
@@ -98,6 +99,7 @@ public class BowSkeleton : UnitType {
 			["death"] = new() { Resources.Load<AudioClip>("SFX/skellyaction") },
 			["placement"] = new() { Resources.Load<AudioClip>("SFX/skellydeath") },
 		};
+		cost = 2;
 	}
 }
 
@@ -109,6 +111,7 @@ public class Lich : UnitType {
 			["death"] = new() { Resources.Load<AudioClip>("SFX/skellyaction") },
 			["placement"] = new() { Resources.Load<AudioClip>("SFX/skellydeath") },
 		};
+		cost = 5;
 	}
 }
 
