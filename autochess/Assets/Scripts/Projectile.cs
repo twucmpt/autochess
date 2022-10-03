@@ -14,6 +14,6 @@ public class Projectile : MonoBehaviour {
     }
 
     void Update() {
-        if (GameManager.Instance.currentPhase != GamePhase.Combat) Destroy(gameObject);
+        if (GameManager.Instance.currentPhase == GamePhase.Planning) Destroy(gameObject);
     }
 }
