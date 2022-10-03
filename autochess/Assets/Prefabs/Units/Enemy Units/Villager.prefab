@@ -234,7 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Stone Warlock
   animation: {fileID: 7400000, guid: b8445b92ebc858f4083ef98d8b534a23, type: 2}
-  range: 1000
+  range: 2
   rangeType: 1
   angle: 90
   power: 1

@@ -165,11 +165,10 @@ public class Unit : Entity
 
 	public void OnDying() {
 		animator.SetBool("Dead", true);
+		GameManager.Instance.PlaySFX(type.GetSound("death"));
 	}
 
-    public void OnDeath() {
-		GameManager.Instance.PlaySFX(type.GetSound("death"));
-		
+    public void OnDeath() {		
 
 		if (isEnemy) Destroy(gameObject);
         else {
