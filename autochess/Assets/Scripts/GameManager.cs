@@ -390,6 +390,8 @@ public class GameManager : Singleton<GameManager>
 				return new BowSkeleton();
 			case unitTypes.HumanPeasent:
 				return new HumanPeasent();
+			case unitTypes.Lich:
+				return new Lich();
 
 		}
 
