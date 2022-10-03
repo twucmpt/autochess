@@ -26,6 +26,8 @@ public class GameManager : Singleton<GameManager>
 	public List<Unit> enemyUnitCache = new();
     public Dictionary<unitTypes, UnitType> unitTypeEnumToClass = new();
 	public GameObject pausedGameIndicator;
+	public GameObject redeloyIndicator;
+
 	public GameObject startRoundButton;
 	public bool CanRedeployFromGrid = false;
 	public bool CanRedeployFromBench = false;
@@ -281,7 +283,7 @@ public class GameManager : Singleton<GameManager>
 	public void OnRedeploymentPhaseEnds()
 	{
 		currentPhase = GamePhase.Combat;
-		pausedGameIndicator.SetActive(false);
+		redeloyIndicator.SetActive(false);
 		DisableRedeployment();
 	}
 
@@ -318,7 +320,7 @@ public class GameManager : Singleton<GameManager>
 	public void OnStartRedeployment()
 	{
 		currentPhase = GamePhase.Redeployment;
-		pausedGameIndicator.SetActive(true);
+		redeloyIndicator.SetActive(true);
 		EnableRedeployment();
 	}
 	#endregion
