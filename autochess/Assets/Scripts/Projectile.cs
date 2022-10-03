@@ -15,6 +15,6 @@ public class Projectile : MonoBehaviour {
 
     void Update() {
         if (GameManager.Instance.currentPhase == GamePhase.Planning) Destroy(gameObject);
-        if (rb.velocity.magnitude == 0) Destroy(gameObject);
+        if (direction == Vector3.zero) Destroy(gameObject);
     }
 }
