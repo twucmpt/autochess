@@ -67,11 +67,7 @@ public class UnitType {
 	/// <param name="sound"></param>
 	/// <returns></returns>
 	public AudioClip GetSound(string sound) {
-		if (sounds.ContainsKey(sound)) {
-			var random = new System.Random();
-			int index = random.Next(sounds[sound].Count);
-			return sounds[sound][index];
-		}
+		if (sounds.ContainsKey(sound)) return sounds[sound][UnityEngine.Random.Range(0, sounds[sound].Count)];
 		return null;
 	}
 }
@@ -84,10 +80,8 @@ public class MeleeZombie : UnitType {
 		type = unitTypes.MeleeZombie;
 		sounds = new() {
 			["death"] = new() {
-				Resources.Load<AudioClip>("SFX/zombiedeath"),
 				Resources.Load<AudioClip>("SFX/zombiedeath1"),
 				Resources.Load<AudioClip>("SFX/zombiedeath2"),
-				null
 			},
 			["placement"] = new() { Resources.Load<AudioClip>("SFX/zombiemoan"), null, null } // 33% chance to moan xD
 		};
