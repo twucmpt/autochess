@@ -152,9 +152,11 @@ public class GameManager : Singleton<GameManager>
 	public void EnableRedeployment() {
 		foreach(var unit in Graveyard.Instance.units) {
 			unit.GetComponent<Draggable>().enabled = true;
+			unit.GetComponent<Unit>().animator.SetBool("Dead", false);
 		}
 
 		foreach(var unit in unitPositions.Values) {
+			print(unit.name + " is disabled");
 			unit.GetComponent<Unit>().enabled = false;
 			if (CanRedeployFromGrid) {
 				if (unit.CompareTag("Player")) unit.GetComponent<Draggable>().enabled = true;
@@ -173,6 +175,7 @@ public class GameManager : Singleton<GameManager>
 			unit.GetComponent<Draggable>().enabled = false;
 		}
 		foreach(var unit in unitPositions.Values) {
+			print(unit.name + " is enabled");
 			unit.GetComponent<Unit>().enabled = true;
 			if (unit.CompareTag("Player")) unit.GetComponent<Draggable>().enabled = false;
 		}
@@ -311,7 +314,11 @@ public class GameManager : Singleton<GameManager>
 	}
 
 	public bool AddUnit(Vector2Int pos, GameObject unitGO, bool EnableUnit = false) {
-		if (!CheckValidPosition(pos, unitGO.tag)) return false;
+		print("Adding " + unitGO.name + " unit at " + pos.ToString());
+		if (!CheckValidPosition(pos, unitGO.tag)) {
+			print("Adding unit failed");
+			return false;
+		}
 
 		unitGO.transform.parent = transform;
 
@@ -329,7 +336,13 @@ public class GameManager : Singleton<GameManager>
 	public void RemoveUnit(Unit unit)
 	{
 		var pos = unit.gridPos;
-		unitPositions.Remove(unit.gridPos);
+		print("Removing " + unit.name + " unit at " + pos.ToString());
+		foreach (var kv in unitPositions) {
+			if (kv.Value == unit) {
+				unitPositions.Remove(kv.Key);
+				break;
+			}
+		}
 		if (unit.isEnemy)
 			enemyUnitCache.Remove(unit);
 	}

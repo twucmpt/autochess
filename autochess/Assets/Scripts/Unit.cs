@@ -85,8 +85,10 @@ public class Unit : Entity
 	/// </summary>
 	public bool MoveUnit(Vector2Int newPos)
 	{
-		if (!gameManager.CheckValidPosition(newPos, tag))
+		if (!gameManager.CheckValidPosition(newPos, tag)) {
+			//print(gameObject.name + " wants to advance to " + newPos.ToString() + " but the position is not valid.");
 			return false;
+		}
 
 		//Update Unit Positions
 		gameManager.unitPositions.Remove(gridPos);
@@ -159,6 +161,10 @@ public class Unit : Entity
 				waitingOnCooldown = true;
 			}
 		}
+	}
+
+	public void OnDying() {
+		animator.SetBool("Dead", true);
 	}
 
     public void OnDeath() {
