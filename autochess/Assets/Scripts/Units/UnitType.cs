@@ -8,7 +8,8 @@ public enum unitTypes
 	MeleeZombie,
 	BowSkeleton,
 	HumanPeasent,
-	Lich
+	Lich,
+	Tombstone
 }
 
 /// <summary>
@@ -23,6 +24,7 @@ public class UnitType {
 
 	public List<Ability> abilities = new();
 	public int cost = 1;
+	public float tierHealthMulti = 0;
 
 	public UnitType() {
 		Init();
@@ -67,11 +69,7 @@ public class UnitType {
 	/// <param name="sound"></param>
 	/// <returns></returns>
 	public AudioClip GetSound(string sound) {
-		if (sounds.ContainsKey(sound)) {
-			var random = new System.Random();
-			int index = random.Next(sounds[sound].Count);
-			return sounds[sound][index];
-		}
+		if (sounds.ContainsKey(sound)) return sounds[sound][UnityEngine.Random.Range(0, sounds[sound].Count)];
 		return null;
 	}
 }
@@ -84,13 +82,12 @@ public class MeleeZombie : UnitType {
 		type = unitTypes.MeleeZombie;
 		sounds = new() {
 			["death"] = new() {
-				Resources.Load<AudioClip>("SFX/zombiedeath"),
 				Resources.Load<AudioClip>("SFX/zombiedeath1"),
 				Resources.Load<AudioClip>("SFX/zombiedeath2"),
-				null
 			},
 			["placement"] = new() { Resources.Load<AudioClip>("SFX/zombiemoan"), null, null } // 33% chance to moan xD
 		};
+		cost = 1;
 
 	}
 }
@@ -104,6 +101,7 @@ public class BowSkeleton : UnitType {
 			["death"] = new() { Resources.Load<AudioClip>("SFX/skellyaction") },
 			["placement"] = new() { Resources.Load<AudioClip>("SFX/skellydeath") },
 		};
+		cost = 2;
 	}
 }
 
@@ -115,8 +113,23 @@ public class Lich : UnitType {
 			["death"] = new() { Resources.Load<AudioClip>("SFX/skellyaction") },
 			["placement"] = new() { Resources.Load<AudioClip>("SFX/skellydeath") },
 		};
+		cost = 6;
 	}
 }
+
+public class Tombstone : UnitType {
+	public override void Init() {
+		base.Init();
+		type = unitTypes.Tombstone;
+		sounds = new() {
+			//["death"] = new() { Resources.Load<AudioClip>("SFX/skellyaction") },
+			//["placement"] = new() { Resources.Load<AudioClip>("SFX/skellydeath") },
+		};
+		cost = 10;
+		tierHealthMulti = 0.2f;
+	}
+}
+
 
 public class HumanPeasent : UnitType {
 

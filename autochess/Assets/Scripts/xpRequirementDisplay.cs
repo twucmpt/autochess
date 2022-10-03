@@ -11,6 +11,6 @@ public class xpRequirementDisplay : MonoBehaviour
     }
 
     void Update() {
-        text.SetText(string.Format("XP: {0}/{1}", GameManager.Instance.playerXP, GameManager.Instance.xpGainedPerRound * GameManager.Instance.maxPlacedUnits));
+        text.SetText(string.Format("XP: {0}/{1}", GameManager.Instance.playerXP, GameManager.Instance.xpRequirementIncreasePerLevel * GameManager.Instance.maxPlacedUnits));
     }
 }

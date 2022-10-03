@@ -13,6 +13,7 @@ public class UnitDataDisplay : MonoBehaviour
     }
 
     public void OnSlotUpdated(int slot) {
+        if (this.slot != slot) return;
         Unit unit = shop.GetShopUnit(slot).GetComponent<Unit>();
         costText.SetText(unit.type.cost.ToString());
         //nameText.SetText(unit.type.name.ToString());

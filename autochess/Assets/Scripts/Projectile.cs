@@ -12,4 +12,9 @@ public class Projectile : MonoBehaviour {
     void OnTriggerEnter (Collider collider) {
         ability.OnProjectileHit(this, collider);
     }
+
+    void Update() {
+        if (GameManager.Instance.currentPhase == GamePhase.Planning) Destroy(gameObject);
+        if (rb.velocity.magnitude == 0) Destroy(gameObject);
+    }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum GamePhase
 {
@@ -41,6 +42,7 @@ public class GameManager : Singleton<GameManager>
 	public int playerXP = 0;
 	public int xpGainedPerRound = 10;
 	public int xpRequirementIncreasePerLevel = 10;
+	public UnityEvent onPlanningPhase = new UnityEvent();
 
 
 	public int currentNumberOfPlacedUnits {get{
@@ -83,6 +85,8 @@ public class GameManager : Singleton<GameManager>
 		unitTypeEnumToClass.Add(unitTypes.MeleeZombie, new MeleeZombie());
 		unitTypeEnumToClass.Add(unitTypes.BowSkeleton, new BowSkeleton());
 		unitTypeEnumToClass.Add(unitTypes.HumanPeasent, new HumanPeasent());
+		unitTypeEnumToClass.Add(unitTypes.Lich, new Lich());
+		unitTypeEnumToClass.Add(unitTypes.Tombstone, new Tombstone());
 
 	}
 
@@ -104,27 +108,10 @@ public class GameManager : Singleton<GameManager>
 
 		foreach (unitTypes type in Enum.GetValues(typeof(unitTypes)))
 		{
-			for (int i = 0; i < 3; i++)
-			{
-				List<Unit> likeUnits = units.Where(x => x.type.type == type && x.tier == i).ToList();
-
-				if (likeUnits.Count >= 3)
-				{
-					Unit unit1 = likeUnits[0];
-					Unit unit2 = likeUnits[1];
-					Unit unit3 = likeUnits[2];
-
-					likeUnits.RemoveRange(1, 2);
-					allPlayerUnits.Remove(unit2);
-					allPlayerUnits.Remove(unit3);
-					Destroy(unit2.gameObject);
-					Destroy(unit3.gameObject);
-
-
-					unit1.AddTier();
+				List<Unit> likeUnits = units.Where(x => x.type.type == type).ToList();
+				foreach(var unit in likeUnits) {
+					unit.SetTier(likeUnits.Count);
 				}
-			}
-
 		}
 	}
 
@@ -157,7 +144,7 @@ public class GameManager : Singleton<GameManager>
 		if (totalTimeInCombat > maxTimeInCombat)
 			OnRoundEndTimeout();
 
-		if (currentPhase != GamePhase.Planning && CheckRoundState())
+		if (currentPhase == GamePhase.Combat && CheckRoundState())
 			OnRoundEnd();
 
 		if (time >= 10)
@@ -230,6 +217,7 @@ public class GameManager : Singleton<GameManager>
 			if (!unit.CompareTag("Player")) continue;
 			RemoveUnit(unit);
 			AddUnit(unit.originalPosition, unit.gameObject);
+			unit.currentHealth = unit.maxHealth;
 			unit.transform.position = new Vector3(unit.originalPosition.x, unit.originalPosition.y, 0);
 		}
 	}
@@ -249,8 +237,9 @@ public class GameManager : Singleton<GameManager>
 		RestoreUnitsToOriginalPlacement();
 		EnableRedeployment();
 
-		enemiesRemaining = 10;
+		enemiesRemaining = 5+5*round;
 		GenerateEnemies(currentDifficulty);
+		onPlanningPhase.Invoke();
 	}
 
 	/// <summary>
@@ -263,6 +252,8 @@ public class GameManager : Singleton<GameManager>
 		CanRedeployFromBench = false;
 		pausedGameIndicator.SetActive(false);
 		startRoundButton.SetActive(false);
+		time = 0;
+		totalTimeInCombat = 0;
 		DisableRedeployment();
 		RecordOriginalPositions();
 	}
@@ -305,6 +296,7 @@ public class GameManager : Singleton<GameManager>
 		round++;
 		currency += currencyPerRound;
 		AddXP(xpGainedPerRound);
+		GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/lvlup"));
 		OnPlanningPhaseStart();
 	}
 
@@ -344,6 +336,17 @@ public class GameManager : Singleton<GameManager>
 		GameObject newUnitGO = Instantiate(unitPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
 		return AddUnit(pos, newUnitGO, EnableUnit);
 	}
+
+	public bool AddUnitFromPrefab(Vector2Int pos, GameObject unitPrefab, out GameObject go, bool EnableUnit = false) {
+		go = null;
+		if (!CheckValidPosition(pos, unitPrefab.tag)) return false;
+		print("Intatiating a new unit " + unitPrefab.name);
+
+		GameObject newUnitGO = Instantiate(unitPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
+		go = newUnitGO;
+		return AddUnit(pos, newUnitGO, EnableUnit);
+	}
+
 
 	public bool AddUnit(Vector2Int pos, GameObject unitGO, bool EnableUnit = false) {
 		print("Adding " + unitGO.name + " unit at " + pos.ToString());
@@ -391,10 +394,12 @@ public class GameManager : Singleton<GameManager>
 				return new HumanPeasent();
 			case unitTypes.Lich:
 				return new Lich();
+			case unitTypes.Tombstone:
+				return new Tombstone();
 
 		}
 
-		return new MeleeZombie();
+		throw new UnityException();
 	}
 	#endregion
 
@@ -420,8 +425,11 @@ public class GameManager : Singleton<GameManager>
 			if (!CheckValidSpawn(pos))
 				continue;
 
-			AddUnitFromPrefab(pos, enemySpawnQueues[i][0].enemy, true);
+			enemiesRemaining--;
+			GameObject go;
+			AddUnitFromPrefab(pos, enemySpawnQueues[i][0].enemy, out go, true);
 			enemySpawnQueues[i].RemoveAt(0);
+			go.GetComponent<Unit>().maxHealth *= (int)(1+round*0.25f);
 		}
 	}
 
@@ -432,21 +440,21 @@ public class GameManager : Singleton<GameManager>
 
 		int wave = 0;
 		int enemiesInWave = 0;
-		int enemiesPerSpawnWave = UnityEngine.Random.Range(1,4);
+		int enemiesPerSpawnWave = UnityEngine.Random.Range(1,4+2*round);
 		print("Wave " + wave);
 		print("Enemies in wave: " + enemiesPerSpawnWave);
 		for (int i = 0; i < enemiesRemaining; i++) {
 			if (enemiesInWave >= enemiesPerSpawnWave) {
 				wave++;
 				enemiesInWave = 0;
-				enemiesPerSpawnWave = UnityEngine.Random.Range(1,4);
+				enemiesPerSpawnWave = UnityEngine.Random.Range(1,4+2*round);
 				print("Wave " + wave);
 				print("Enemies in wave: " + enemiesPerSpawnWave);
 			}
 			var selectedQueue = enemySpawnQueues[UnityEngine.Random.Range(0, enemySpawnQueues.Length)];
 			var selectedEnemy = GetEnemyUnit(difficulty);
 			print(selectedEnemy);
-			selectedQueue.Add(new EnemySpawn(selectedEnemy, wave*spawnInterval));
+			selectedQueue.Add(new EnemySpawn(selectedEnemy, wave*spawnInterval+2));
 			enemiesInWave++;
 		}
 	}
