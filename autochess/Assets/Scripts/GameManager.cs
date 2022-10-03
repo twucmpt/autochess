@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum GamePhase
 {
@@ -41,6 +42,7 @@ public class GameManager : Singleton<GameManager>
 	public int playerXP = 0;
 	public int xpGainedPerRound = 10;
 	public int xpRequirementIncreasePerLevel = 10;
+	public UnityEvent onPlanningPhase = new UnityEvent();
 
 
 	public int currentNumberOfPlacedUnits {get{
@@ -237,6 +239,7 @@ public class GameManager : Singleton<GameManager>
 
 		enemiesRemaining = 5+5*round;
 		GenerateEnemies(currentDifficulty);
+		onPlanningPhase.Invoke();
 	}
 
 	/// <summary>
