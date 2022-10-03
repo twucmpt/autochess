@@ -12,8 +12,13 @@ public class Entity : MonoBehaviour
    
 
     public void TakeDamage(int damage) {
+        OnTakeDamage.Invoke();
         currentHealth -= damage;
+<<<<<<< HEAD
+        if (currentHealth <= 0) OnZeroHealth.Invoke(); 
+=======
         if (currentHealth <= 0) OnZeroHealth.Invoke();
         OnTakeDamage.Invoke();
+>>>>>>> 6dcc622 (stuff)
     }
 }

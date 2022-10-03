@@ -179,6 +179,7 @@ public class Unit : Entity
 	public void OnDying() {
 		animator.SetBool("Dead", true);
 		GameManager.Instance.PlaySFX(type.GetSound("death"));
+		ChangeWarlockFace.Instance.DisplayConfident();
 	}
 
     public void OnDeath() {		
