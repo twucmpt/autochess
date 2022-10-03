@@ -95,8 +95,9 @@
     bool unit1Benched = Bench.Instance.Contains(unit1.gameObject);
     bool unit2Benched = Bench.Instance.Contains(unit2.gameObject);
     if (unit1Benched || unit2Benched) {
-        if (GameManager.Instance.currentPhase == GamePhase.Planning) {
+        if (GameManager.Instance.currentPhase != GamePhase.Planning) {
             GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/cantdothat"));
+            transform.position = originalPos;
             return;
         }
         Unit benchedUnit = null;
