@@ -228,7 +228,7 @@ MonoBehaviour:
   rangeType: 1
   angle: 30
   basePower: 50
-  cooldown: 20
+  cooldown: 5
   currentCooldown: 0
   includeUser: 0
   friendlyFire: 0

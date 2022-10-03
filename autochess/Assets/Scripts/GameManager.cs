@@ -144,7 +144,7 @@ public class GameManager : Singleton<GameManager>
 		if (totalTimeInCombat > maxTimeInCombat)
 			OnRoundEndTimeout();
 
-		if (currentPhase != GamePhase.Planning && CheckRoundState())
+		if (currentPhase == GamePhase.Combat && CheckRoundState())
 			OnRoundEnd();
 
 		if (time >= 10)
