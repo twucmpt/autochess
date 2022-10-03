@@ -24,11 +24,12 @@ public class Unit : Entity
     Entity currentTarget = null;
     bool waitingOnCooldown = false;
 	GameManager gameManager;
+	public GameObject soundSlave;
+
 
 	public UnitType type;
 	public unitTypes myType;
     public Vector2Int originalPosition;
-	public AudioSource sfxBus;
 
 
 	void Start() 
@@ -45,7 +46,6 @@ public class Unit : Entity
 		type = gameManager.GetUnitType(myType);
 
 		type.abilities = GetComponentsInChildren<Ability>().ToList();
-		type.sfxBus = sfxBus;
 	}
 	
 
@@ -111,6 +111,7 @@ public class Unit : Entity
 	/// </summary>
 	private void DetermineAction()
 	{
+
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("idle") && !animator.GetBool("Attacking") && !animator.GetBool("Walking"))
 		{
 			bool atLeastOneAbilityInRange = false;
@@ -132,6 +133,7 @@ public class Unit : Entity
 				}
 			}
 
+
 			if (currentAbility is not null)
 			{
 				waitingOnCooldown = false;
@@ -140,9 +142,13 @@ public class Unit : Entity
 					Debug.LogError($"Missing attack animation on {currentAbility.name}");
 					return;
 				}
+				PlaySFX("action");
 
 				animController["attack"] = currentAbility.animation;
 				animator.SetBool("Attacking", true);
+				
+				
+
 				print(gameObject.name + " is attacking " + currentTarget.gameObject.name + " with " + currentAbility.name + ".");
 			}
 			else if (!atLeastOneAbilityInRange)
@@ -163,12 +169,25 @@ public class Unit : Entity
 	}
 
     public void OnDeath() {
-        if (isEnemy) Destroy(gameObject);
+		PlaySFX("death");
+
+		if (isEnemy) Destroy(gameObject);
         else {
             Graveyard.Instance.AddUnit(gameObject);
             gameManager.RemoveUnit(this);
         }
     }
+
+	public void PlaySFX(string key) {
+		var sound = type.GetSound(key);
+		if (sound) {
+			var gameObject = Instantiate(soundSlave) as GameObject;
+			SoundSlave ss = gameObject.GetComponent<SoundSlave>();
+			ss.sfx = sound;
+			ss.Init();
+
+		}
+	}
 
     public void AnimationStartCallback() {
         currentAbility.Activate(currentTarget);
