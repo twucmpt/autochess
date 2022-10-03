@@ -24,7 +24,7 @@ public class Shop : MonoBehaviour
         int cost = units[slot].GetComponent<Unit>().type.cost;
         if (GameManager.Instance.currency >= cost && bench.AddUnit(units[slot])) {
             GameManager.Instance.currency -= cost;
-
+			GameManager.Instance.allPlayerUnits.Add(units[slot].GetComponent<Unit>());
             SetShopUnit(slot, null);
 			GameManager.Instance.MergeLikeUnits(GameManager.Instance.allPlayerUnits);
             print("Purchase successful");
@@ -52,7 +52,6 @@ public class Shop : MonoBehaviour
 			units[slot].GetComponent<Unit>().Init();
 			units[slot].GetComponent<Unit>().enabled = false;
 			units[slot].GetComponent<UnitMoveToGrid>().enabled = false;
-			GameManager.Instance.allPlayerUnits.Add(units[slot].GetComponent<Unit>());
 		}
 
         SlotUpdated.Invoke(slot);

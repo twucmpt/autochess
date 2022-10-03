@@ -57,6 +57,7 @@ public class Unit : Entity
 	public void AddTier()
 	{
 		tier = Mathf.Min(tier + 1, 3);
+		transform.localScale *= 1.1f;
 		ResetMaxHealth();
 	}
 
