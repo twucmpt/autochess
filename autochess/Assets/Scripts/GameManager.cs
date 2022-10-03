@@ -345,6 +345,17 @@ public class GameManager : Singleton<GameManager>
 		return AddUnit(pos, newUnitGO, EnableUnit);
 	}
 
+	public bool AddUnitFromPrefab(Vector2Int pos, GameObject unitPrefab, out GameObject go, bool EnableUnit = false) {
+		go = null;
+		if (!CheckValidPosition(pos, unitPrefab.tag)) return false;
+		print("Intatiating a new unit " + unitPrefab.name);
+
+		GameObject newUnitGO = Instantiate(unitPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
+		go = newUnitGO;
+		return AddUnit(pos, newUnitGO, EnableUnit);
+	}
+
+
 	public bool AddUnit(Vector2Int pos, GameObject unitGO, bool EnableUnit = false) {
 		print("Adding " + unitGO.name + " unit at " + pos.ToString());
 		if (!CheckValidPosition(pos, unitGO.tag)) {
@@ -420,8 +431,10 @@ public class GameManager : Singleton<GameManager>
 			if (!CheckValidSpawn(pos))
 				continue;
 
-			AddUnitFromPrefab(pos, enemySpawnQueues[i][0].enemy, true);
+			GameObject go;
+			AddUnitFromPrefab(pos, enemySpawnQueues[i][0].enemy, out go, true);
 			enemySpawnQueues[i].RemoveAt(0);
+			go.GetComponent<Unit>().maxHealth *= (int)(1+round*0.25f);
 		}
 	}
 

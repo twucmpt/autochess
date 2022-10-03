@@ -59,16 +59,22 @@ MonoBehaviour:
     unitPrefab: {fileID: 5401917378570716717, guid: 6a04da38ec8220546af276cf81ca08eb, type: 3}
     difficulty: 0
     weight: 1
+  allPlayerUnits: []
   enemyUnitCache: []
   pausedGameIndicator: {fileID: 0}
+  redeloyIndicator: {fileID: 0}
   startRoundButton: {fileID: 0}
   CanRedeployFromGrid: 0
   CanRedeployFromBench: 0
   warlock: {fileID: 0}
+  soundSlave: {fileID: 0}
   enemiesRemaining: 10
   spawnInterval: 10
   maxPlacedUnits: 1
-  currency: 10
+  playerXP: 0
+  xpGainedPerRound: 10
+  xpRequirementIncreasePerLevel: 10
+  currency: 25
   currencyPerRound: 10
   round: 1
   time: 0
