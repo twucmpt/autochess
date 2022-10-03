@@ -16,7 +16,8 @@ public class Unit : Entity
     public bool facingRight = true;
 	public bool isEnemy {get{return CompareTag("Enemy");}}
     public float speed = 1;
-    public Vector2Int gridPos;
+	public int tier = 1;
+	public Vector2Int gridPos;
 
     public Animator animator;
     AnimatorOverrideController animController;
@@ -44,16 +45,27 @@ public class Unit : Entity
 		type = gameManager.GetUnitType(myType);
 
 		type.abilities = GetComponentsInChildren<Ability>().ToList();
+		type.sfxBus = sfxBus;
+		ResetMaxHealth();
 	}
 	
-
-
 	void Update() {
 		UpdateFacingDirection();
 		type.UpdateAbilityCooldown(Time.deltaTime*speed);
 		DetermineAction();
 	}
 
+	public void AddTier()
+	{
+		tier = Mathf.Min(tier + 1, 3);
+		ResetMaxHealth();
+	}
+
+	private void ResetMaxHealth()
+	{
+		maxHealth = maxHealth * (int)Mathf.Pow(3, tier - 1);
+		currentHealth = maxHealth;
+	}
 
     void OnDestroy() {
         GameManager.Instance.RemoveUnit(this);

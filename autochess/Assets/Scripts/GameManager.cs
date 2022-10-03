@@ -20,6 +20,8 @@ public class GameManager : Singleton<GameManager>
 	public List<UnitListHelper> unitListHelpers = new();
 	public List<EnemyListHelper> enemyListHelpers = new();
 
+	public List<Unit> allPlayerUnits = new();
+
 	public Dictionary<Vector2Int, Unit> unitPositions = new();
 	public List<Unit> enemyUnitCache = new();
     public Dictionary<unitTypes, UnitType> unitTypeEnumToClass = new();
@@ -93,6 +95,37 @@ public class GameManager : Singleton<GameManager>
 			GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/lvlup2"));
 			playerXP -= maxPlacedUnits * xpRequirementIncreasePerLevel;
 			maxPlacedUnits++;
+		}
+	}
+
+	public void MergeLikeUnits(List<Unit> units)
+	{
+		if (currentPhase != GamePhase.Planning)
+			return;
+
+		foreach (unitTypes type in Enum.GetValues(typeof(unitTypes)))
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				List<Unit> likeUnits = units.Where(x => x.type.type == type && x.tier == i).ToList();
+
+				if (likeUnits.Count >= 3)
+				{
+					Unit unit1 = likeUnits[0];
+					Unit unit2 = likeUnits[1];
+					Unit unit3 = likeUnits[2];
+
+					likeUnits.RemoveRange(1, 2);
+					allPlayerUnits.Remove(unit2);
+					allPlayerUnits.Remove(unit3);
+					Destroy(unit2.gameObject);
+					Destroy(unit3.gameObject);
+
+
+					unit1.AddTier();
+				}
+			}
+
 		}
 	}
 

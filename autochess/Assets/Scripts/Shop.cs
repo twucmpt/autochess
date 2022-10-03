@@ -9,11 +9,11 @@ public class Shop : MonoBehaviour
     public int increaseMaxUnitsCost = 5;
     public List<GameObject> unitSelectionList = new ();
     public GameObject[] slots = new GameObject[5];
+	public GameObject[] units = new GameObject[5];
 
-    public Bench bench;
+	public Bench bench;
     public Transform shopUnitRenderer;
     [SerializeField]
-    private GameObject[] units = new GameObject[5];
     public UnityEvent<int> SlotUpdated = new UnityEvent<int>();
 
     public void Start() {
@@ -26,7 +26,7 @@ public class Shop : MonoBehaviour
             GameManager.Instance.currency -= cost;
 
             SetShopUnit(slot, null);
-           
+			GameManager.Instance.MergeLikeUnits(GameManager.Instance.allPlayerUnits);
             print("Purchase successful");
             GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/coinjanglelong"));
         }
@@ -44,14 +44,14 @@ public class Shop : MonoBehaviour
         }
 
         if (prefab == null) {
-            slots[slot].SetActive(false);
+			slots[slot].SetActive(false);
         }
         else {
-            slots[slot].SetActive(true);
-            units[slot] = Instantiate(prefab, slotRenderer);
-            units[slot].GetComponent<Unit>().Init();
-            units[slot].GetComponent<Unit>().enabled = false;
-            units[slot].GetComponent<UnitMoveToGrid>().enabled = false;
+			slots[slot].SetActive(true);
+			units[slot] = Instantiate(prefab, slotRenderer);
+			units[slot].GetComponent<Unit>().Init();
+			units[slot].GetComponent<Unit>().enabled = false;
+			units[slot].GetComponent<UnitMoveToGrid>().enabled = false;
         }
 
         SlotUpdated.Invoke(slot);
@@ -92,8 +92,9 @@ public class Shop : MonoBehaviour
 
     void RefillShop() {
         // Todo do pick randomly
-        for (int i = 0; i < units.Length; i++) {
+        for (int i = 0; i < slots.Length; i++) {
             SetShopUnit(i, unitSelectionList[i]);
         }
     }
+
 }
