@@ -440,14 +440,14 @@ public class GameManager : Singleton<GameManager>
 
 		int wave = 0;
 		int enemiesInWave = 0;
-		int enemiesPerSpawnWave = UnityEngine.Random.Range(1,2+2*round);
+		int enemiesPerSpawnWave = UnityEngine.Random.Range(1,4+2*round);
 		print("Wave " + wave);
 		print("Enemies in wave: " + enemiesPerSpawnWave);
 		for (int i = 0; i < enemiesRemaining; i++) {
 			if (enemiesInWave >= enemiesPerSpawnWave) {
 				wave++;
 				enemiesInWave = 0;
-				enemiesPerSpawnWave = UnityEngine.Random.Range(1,4);
+				enemiesPerSpawnWave = UnityEngine.Random.Range(1,4+2*round);
 				print("Wave " + wave);
 				print("Enemies in wave: " + enemiesPerSpawnWave);
 			}

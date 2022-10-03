@@ -7,7 +7,7 @@ public class BugFixHealthOutsideCombat : MonoBehaviour
     private Unit unit;
     void Start()
     {
-        GetComponent<Unit>();
+        unit = GetComponent<Unit>();
     }
 
     void Update()
