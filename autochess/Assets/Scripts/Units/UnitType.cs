@@ -113,7 +113,7 @@ public class Lich : UnitType {
 			["death"] = new() { Resources.Load<AudioClip>("SFX/skellyaction") },
 			["placement"] = new() { Resources.Load<AudioClip>("SFX/skellydeath") },
 		};
-		cost = 5;
+		cost = 6;
 	}
 }
 
