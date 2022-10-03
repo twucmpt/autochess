@@ -53,7 +53,7 @@ public class Unit : Entity
 	
 	void Update() {
 		if (currentHealth > 0) animator.SetBool("Dead", false);
-        move2Grid.enabled = true;
+		if (move2Grid != null) move2Grid.enabled = true;
 		UpdateFacingDirection();
 		type.UpdateAbilityCooldown(Time.deltaTime*speed);
 		DetermineAction();
