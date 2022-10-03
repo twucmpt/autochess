@@ -9,11 +9,11 @@ public class Entity : MonoBehaviour
     public int currentHealth = 100;
     public UnityEvent OnZeroHealth = new UnityEvent();
     public UnityEvent OnTakeDamage = new UnityEvent();
-
+   
 
     public void TakeDamage(int damage) {
+        OnTakeDamage.Invoke();
         currentHealth -= damage;
-        if (currentHealth <= 0) OnZeroHealth.Invoke();
-        
+        if (currentHealth <= 0) OnZeroHealth.Invoke(); 
     }
 }

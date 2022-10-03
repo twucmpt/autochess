@@ -58,14 +58,11 @@ public class GameManager : Singleton<GameManager>
 	public int round = 1;
 
 	public void PlaySFX(AudioClip sound) {
-		print(sound);
 		if (sound == null) return;	
 		var gameObject = Instantiate(soundSlave) as GameObject;
 		SoundSlave ss = gameObject.GetComponent<SoundSlave>();
 		ss.sfx = sound;
 		ss.Init();
-
-		
 	}
 
 	protected override void Awake() 
@@ -92,7 +89,7 @@ public class GameManager : Singleton<GameManager>
 		playerXP += xp;
 		if(playerXP >= maxPlacedUnits * xpRequirementIncreasePerLevel)
 		{
-			GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/lvlup2"));
+			this.PlaySFX(Resources.Load<AudioClip>("SFX/lvlup2"));
 			playerXP -= maxPlacedUnits * xpRequirementIncreasePerLevel;
 			maxPlacedUnits++;
 		}
