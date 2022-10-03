@@ -414,6 +414,7 @@ public class GameManager : Singleton<GameManager>
 			if (!CheckValidSpawn(pos))
 				continue;
 
+			enemiesRemaining--;
 			GameObject go;
 			AddUnitFromPrefab(pos, enemySpawnQueues[i][0].enemy, out go, true);
 			enemySpawnQueues[i].RemoveAt(0);
