@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.Events;
 
 public class Shop : MonoBehaviour
@@ -92,9 +93,11 @@ public class Shop : MonoBehaviour
 
     void RefillShop() {
         // Todo do pick randomly
-        for (int i = 0; i < slots.Length; i++) {
-            SetShopUnit(i, unitSelectionList[i]);
-        }
+        var i = 0;
+        unitSelectionList
+            .OrderBy(x => UnityEngine.Random.Range(0, 100))
+            .Take(slots.Length)
+            .ToList()
+            .ForEach((x) => SetShopUnit(i++,x));
     }
-
 }
