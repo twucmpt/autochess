@@ -16,7 +16,6 @@ public class Bench : Singleton<Bench>
                 unit.transform.localPosition = new Vector3(0, i, 0);
                 if (unit.GetComponent<Unit>().animator != null) unit.GetComponent<Unit>().animator.SetBool("Walking", false);
                 unit.GetComponent<UnitMoveToGrid>().enabled = false;
-				GameManager.Instance.allPlayerUnits.Add(unit.GetComponent<Unit>());
                 if (GameManager.Instance.currentPhase == GamePhase.Planning) unit.GetComponent<Draggable>().enabled = true;
                 return true;
             }

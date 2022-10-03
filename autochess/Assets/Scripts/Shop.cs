@@ -52,7 +52,8 @@ public class Shop : MonoBehaviour
 			units[slot].GetComponent<Unit>().Init();
 			units[slot].GetComponent<Unit>().enabled = false;
 			units[slot].GetComponent<UnitMoveToGrid>().enabled = false;
-        }
+			GameManager.Instance.allPlayerUnits.Add(units[slot].GetComponent<Unit>());
+		}
 
         SlotUpdated.Invoke(slot);
     }
