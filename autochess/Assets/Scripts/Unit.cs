@@ -64,7 +64,7 @@ public class Unit : Entity
 
 	private void ResetMaxHealth()
 	{
-		maxHealth = maxHealth * (int)Mathf.Pow(3, tier - 1);
+		maxHealth = (int)(1.1 * maxHealth);
 		currentHealth = maxHealth;
 	}
 
@@ -203,5 +203,5 @@ public class Unit : Entity
         currentAbility = null;
         currentTarget = null;
         animator.SetBool("Attacking", false);
-    }
+	}
 }
