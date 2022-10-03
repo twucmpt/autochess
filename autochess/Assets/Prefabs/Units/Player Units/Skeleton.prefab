@@ -221,4 +221,4 @@ MonoBehaviour:
   includeUser: 0
   friendlyFire: 0
   projectilePrefab: {fileID: 5266561708417888548, guid: 051bcd98e58beb24b997323a1a77e5a4, type: 3}
-  speed: 1
+  speed: 5
