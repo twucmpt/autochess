@@ -24,8 +24,6 @@ public class Unit : Entity
     Entity currentTarget = null;
     bool waitingOnCooldown = false;
 	GameManager gameManager;
-	public GameObject soundSlave;
-
 
 	public UnitType type;
 	public unitTypes myType;
@@ -140,7 +138,8 @@ public class Unit : Entity
 					Debug.LogError($"Missing attack animation on {currentAbility.name}");
 					return;
 				}
-				PlaySFX("action");
+
+				GameManager.Instance.PlaySFX(type.GetSound("action"));
 
 				animController["attack"] = currentAbility.animation;
 				animator.SetBool("Attacking", true);
@@ -163,7 +162,8 @@ public class Unit : Entity
 	}
 
     public void OnDeath() {
-		PlaySFX("death");
+		GameManager.Instance.PlaySFX(type.GetSound("death"));
+		
 
 		if (isEnemy) Destroy(gameObject);
         else {
@@ -171,17 +171,6 @@ public class Unit : Entity
             gameManager.RemoveUnit(this);
         }
     }
-
-	public void PlaySFX(string key) {
-		var sound = type.GetSound(key);
-		if (sound) {
-			var gameObject = Instantiate(soundSlave) as GameObject;
-			SoundSlave ss = gameObject.GetComponent<SoundSlave>();
-			ss.sfx = sound;
-			ss.Init();
-
-		}
-	}
 
     public void AnimationStartCallback() {
         currentAbility.Activate(currentTarget);

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8005409354591875079}
   - component: {fileID: -802753621526640941}
   m_Layer: 0
-  m_Name: SoundSlave
+  m_Name: WizardHurtSoundSlave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,5 +44,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbbc69b2e93f2949a8d3a6169f6bb4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  sfx: {fileID: 8300000, guid: 80b89ef7646363a4b846c4aa05d4e645, type: 3}

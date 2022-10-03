@@ -29,6 +29,8 @@ public class GameManager : Singleton<GameManager>
 	public bool CanRedeployFromBench = false;
 	public Entity warlock;
 
+	public GameObject soundSlave;
+
 	public int enemiesRemaining = 2;
 	public float spawnInterval = 5;
 	public int maxPlacedUnits = 1;
@@ -52,9 +54,19 @@ public class GameManager : Singleton<GameManager>
 	public int currency = 0;
 	public int currencyPerRound = 10;
 	public int round = 1;
-	
 
-    protected override void Awake() 
+	public void PlaySFX(AudioClip sound) {
+		print(sound);
+		if (sound == null) return;	
+		var gameObject = Instantiate(soundSlave) as GameObject;
+		SoundSlave ss = gameObject.GetComponent<SoundSlave>();
+		ss.sfx = sound;
+		ss.Init();
+
+		
+	}
+
+	protected override void Awake() 
 	{
 		base.Awake();
 		Init();
@@ -78,6 +90,7 @@ public class GameManager : Singleton<GameManager>
 		playerXP += xp;
 		if(playerXP >= maxPlacedUnits * xpRequirementIncreasePerLevel)
 		{
+			GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/lvlup2"));
 			playerXP -= maxPlacedUnits * xpRequirementIncreasePerLevel;
 			maxPlacedUnits++;
 		}

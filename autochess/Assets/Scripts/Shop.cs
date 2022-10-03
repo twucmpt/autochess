@@ -26,10 +26,14 @@ public class Shop : MonoBehaviour
             GameManager.Instance.currency -= cost;
 
             SetShopUnit(slot, null);
+           
             print("Purchase successful");
+            GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/coinjanglelong"));
         }
         else {
             print("Purchase failed");
+            GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/cantdothat"));
+
         }
     }
 
@@ -58,13 +62,17 @@ public class Shop : MonoBehaviour
     }
 
     public void RerollShop() {
+                    
         if (GameManager.Instance.currency >= rerollCost) {
+            
             GameManager.Instance.currency -= rerollCost;
             RefillShop();
             print("Rerolling successful");
+            GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/roll"));
         }
         else {
             print("Rerolling failed");
+            GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/cantdothat"));
         }
     }
 
@@ -75,9 +83,10 @@ public class Shop : MonoBehaviour
             GameManager.Instance.AddXP(5);
 
             print("Increase xp successful");
-        }
-        else {
+            GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/coinjanglelong"));
+        } else {
             print("Increase xp failed");
+            GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/cantdothat"));
         }
     }
 

@@ -14,19 +14,17 @@ public enum unitTypes
 /// <summary>
 /// Base Class for all Unit Types
 /// </summary>
-public class UnitType
-{
+public class UnitType {
 	public string name;
 	public unitTypes type;
 	public UnitBaseStats stats;
-	internal Dictionary<string, AudioClip> sounds;
+	internal Dictionary<string, List<AudioClip>> sounds;
 
 
 	public List<Ability> abilities = new();
 	public int cost = 1;
 
-	public UnitType()
-	{
+	public UnitType() {
 		Init();
 	}
 
@@ -45,24 +43,21 @@ public class UnitType
 	/// A method that activates this units unique ability if it has one
 	/// </summary>
 	/// <param name="target"></param>
-	public void ActivateAbility(Ability ability, Entity target) 
-	{
+	public void ActivateAbility(Ability ability, Entity target) {
 		if (ability == null)
 			return;
-		ability.Activate(target); 
+		ability.Activate(target);
 	}
 
 	/// <summary>
 	/// Reduce cooldown on abilities
 	/// </summary>
 	/// <param name="timePassed"></param>
-	public void UpdateAbilityCooldown(float timePassed)
-	{
-		foreach (var ability in abilities)
-		{
+	public void UpdateAbilityCooldown(float timePassed) {
+		foreach (var ability in abilities) {
 			ability.ReduceCooldown(timePassed);
 		}
-		
+
 	}
 
 
@@ -72,62 +67,63 @@ public class UnitType
 	/// <param name="sound"></param>
 	/// <returns></returns>
 	public AudioClip GetSound(string sound) {
-		if (sounds.ContainsKey(sound)) return sounds[sound];
+		if (sounds.ContainsKey(sound)) {
+			var random = new System.Random();
+			int index = random.Next(sounds[sound].Count);
+			return sounds[sound][index];
+		}
 		return null;
-    }
+	}
 }
 
-public class MeleeZombie : UnitType
-{
+public class MeleeZombie : UnitType {
 
 
 	public override void Init() {
 		base.Init();
 		type = unitTypes.MeleeZombie;
 		sounds = new() {
-			["death"] = Resources.Load<AudioClip>("SFX/zombiedeath"),
-			["action"] = Resources.Load<AudioClip>("SFX/zombiemoan")
+			["death"] = new() {
+				Resources.Load<AudioClip>("SFX/zombiedeath"),
+				Resources.Load<AudioClip>("SFX/zombiedeath1"),
+				Resources.Load<AudioClip>("SFX/zombiedeath2"),
+				null
+			},
+			["placement"] = new() { Resources.Load<AudioClip>("SFX/zombiemoan"), null, null } // 33% chance to moan xD
 		};
 
 	}
 }
 
-public class BowSkeleton : UnitType
-{
+public class BowSkeleton : UnitType {
 
 	public override void Init() {
-			base.Init();
-			type = unitTypes.BowSkeleton;
-			sounds = new() {
-				["death"] = Resources.Load<AudioClip>("SFX/skellydeath"),
-				["action"] = Resources.Load<AudioClip>("SFX/skellyaction")
-			};
+		base.Init();
+		type = unitTypes.BowSkeleton;
+		sounds = new() {
+			["death"] = new() { Resources.Load<AudioClip>("SFX/skellyaction") },
+			["placement"] = new() { Resources.Load<AudioClip>("SFX/skellydeath") },
+		};
 	}
 }
 
-public class Lich : UnitType
-{
-	public override void Init()
-	{
+public class Lich : UnitType {
+	public override void Init() {
 		base.Init();
 		type = unitTypes.Lich;
 		sounds = new() {
-			["death"] = Resources.Load<AudioClip>("SFX/skellydeath"),
-			["action"] = Resources.Load<AudioClip>("SFX/skellyaction")
+			["death"] = new() { Resources.Load<AudioClip>("SFX/skellyaction") },
+			["placement"] = new() { Resources.Load<AudioClip>("SFX/skellydeath") },
 		};
 	}
 }
 
-public class HumanPeasent : UnitType
-{
+public class HumanPeasent : UnitType {
 
 	public override void Init() {
-			base.Init();
-			type = unitTypes.HumanPeasent;
-			sounds = new() {
-				["death"] = Resources.Load<AudioClip>("SFX/humandeath1"),
-				["action"] = Resources.Load<AudioClip>("SFX/humandeath2")
-			};
+		base.Init();
+		type = unitTypes.HumanPeasent;
+		sounds = new() { ["death"] = new() { Resources.Load<AudioClip>("SFX/humandeath1"), Resources.Load<AudioClip>("SFX/humandeath2") } };
 
-		}
 	}
+}

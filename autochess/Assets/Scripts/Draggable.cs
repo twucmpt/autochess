@@ -36,26 +36,38 @@
     var currentPosRounded = Vector2Int.RoundToInt(GetCurrentMousePos());
     Unit unit = GetComponent<Unit>();
     if (Graveyard.Instance.Contains(gameObject)) {
-        if (currentPosRounded.x < GameManager.Instance.gridWidth/2 && GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
+        if (currentPosRounded.x < GameManager.Instance.gridWidth / 2 && GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
             transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
             Graveyard.Instance.RemoveUnit(gameObject);
+            GameManager.Instance.PlaySFX(unit.type.GetSound("placement"));
+        } else {
+            transform.position = originalPos;
+            GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/cantdothat"));
         }
-        else transform.position = originalPos;
-    }
-    else if (Bench.Instance.Contains(gameObject)) {
-        if (GameManager.Instance.currentNumberOfPlacedUnits < GameManager.Instance.maxPlacedUnits && currentPosRounded.x < GameManager.Instance.gridWidth/2 && GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
-            transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
-            Bench.Instance.RemoveUnit(gameObject);
+    } else if (Bench.Instance.Contains(gameObject)) {
+            if (GameManager.Instance.currentNumberOfPlacedUnits < GameManager.Instance.maxPlacedUnits && currentPosRounded.x < GameManager.Instance.gridWidth / 2 && GameManager.Instance.AddUnit(currentPosRounded, gameObject)) {
+                transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
+                Bench.Instance.RemoveUnit(gameObject);
+                GameManager.Instance.PlaySFX(unit.type.GetSound("placement"));
+            } else {
+                GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/cantdothat"));
+                transform.position = originalPos;
+                
+                
+            }
         }
-        else transform.position = originalPos;
-    }
     else {
         if ((currentPosRounded.x < -1 || currentPosRounded.y < 0) && Bench.Instance.AddUnit(gameObject)) {
             GameManager.Instance.RemoveUnit(unit);
             return;
         }
-        if (GameManager.Instance.CheckValidPosition(currentPosRounded, tag) && currentPosRounded.x < GameManager.Instance.gridWidth/2 && unit.MoveUnit(currentPosRounded)) transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
-        else transform.position = originalPos;
+        if (GameManager.Instance.CheckValidPosition(currentPosRounded, tag) && currentPosRounded.x < GameManager.Instance.gridWidth / 2 && unit.MoveUnit(currentPosRounded)) transform.position = new Vector3(currentPosRounded.x, currentPosRounded.y);
+        else {
+            if (currentPosRounded.x != originalPos.x || currentPosRounded.y != originalPos.y) {
+                    GameManager.Instance.PlaySFX(Resources.Load<AudioClip>("SFX/cantdothat"));
+            }
+            transform.position = originalPos;
+        }
     }
     
  }
