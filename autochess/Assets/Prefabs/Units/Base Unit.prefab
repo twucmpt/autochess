@@ -221,9 +221,9 @@ MonoBehaviour:
   speed: 1
   gridPos: {x: 0, y: 0}
   animator: {fileID: 0}
+  soundSlave: {fileID: 6407583907938671103, guid: 04dee4e29871f6b4d89faa9199519205, type: 3}
   myType: 0
   originalPosition: {x: 0, y: 0}
-  sfxBus: {fileID: 0}
 --- !u!114 &6080650397175766053
 MonoBehaviour:
   m_ObjectHideFlags: 0

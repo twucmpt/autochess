@@ -19,9 +19,8 @@ public class UnitType
 	public string name;
 	public unitTypes type;
 	public UnitBaseStats stats;
-	public Dictionary<string,AudioClip> sounds;
-	
-	public AudioSource sfxBus;
+	internal Dictionary<string, AudioClip> sounds;
+
 
 	public List<Ability> abilities = new();
 	public int cost = 1;
@@ -40,7 +39,8 @@ public class UnitType
 	/// A method that handles the basic attack function of a unit type
 	/// </summary>
 	/// <param name="target"></param>
-	public virtual void Attack(Entity target) { }
+	public virtual void Attack(Entity target) {
+	}
 	/// <summary>
 	/// A method that activates this units unique ability if it has one
 	/// </summary>
@@ -49,7 +49,6 @@ public class UnitType
 	{
 		if (ability == null)
 			return;
-
 		ability.Activate(target); 
 	}
 
@@ -66,9 +65,15 @@ public class UnitType
 		
 	}
 
-	public void PlaySound(string sound) {
-		if (this.sounds.ContainsKey(sound))
-			sfxBus.PlayOneShot(sounds[sound]);
+
+	/// <summary>
+	/// Fetches the sound for a given key, null if none 
+	/// </summary>
+	/// <param name="sound"></param>
+	/// <returns></returns>
+	public AudioClip GetSound(string sound) {
+		if (sounds.ContainsKey(sound)) return sounds[sound];
+		return null;
     }
 }
 
@@ -80,8 +85,8 @@ public class MeleeZombie : UnitType
 		base.Init();
 		type = unitTypes.MeleeZombie;
 		sounds = new() {
-			["death"] = Resources.Load<AudioClip>("SFX/zombiedeath.wav"),
-			["action"] = Resources.Load<AudioClip>("SFX/zombiemoan.wav")
+			["death"] = Resources.Load<AudioClip>("SFX/zombiedeath"),
+			["action"] = Resources.Load<AudioClip>("SFX/zombiemoan")
 		};
 
 	}
@@ -94,8 +99,8 @@ public class BowSkeleton : UnitType
 			base.Init();
 			type = unitTypes.BowSkeleton;
 			sounds = new() {
-				["death"] = Resources.Load<AudioClip>("SFX/zombiedeath.wav"),
-				["action"] = Resources.Load<AudioClip>("SFX/zombiemoan.wav")
+				["death"] = Resources.Load<AudioClip>("SFX/skellydeath"),
+				["action"] = Resources.Load<AudioClip>("SFX/skellyaction")
 			};
 	}
 }
@@ -106,6 +111,10 @@ public class Lich : UnitType
 	{
 		base.Init();
 		type = unitTypes.Lich;
+		sounds = new() {
+			["death"] = Resources.Load<AudioClip>("SFX/skellydeath"),
+			["action"] = Resources.Load<AudioClip>("SFX/skellyaction")
+		};
 	}
 }
 
@@ -116,8 +125,8 @@ public class HumanPeasent : UnitType
 			base.Init();
 			type = unitTypes.HumanPeasent;
 			sounds = new() {
-				["death"] = Resources.Load<AudioClip>("SFX/humandeath1.wav"),
-				["action"] = Resources.Load<AudioClip>("SFX/humandeath2.wav")
+				["death"] = Resources.Load<AudioClip>("SFX/humandeath1"),
+				["action"] = Resources.Load<AudioClip>("SFX/humandeath2")
 			};
 
 		}
